@@ -22,14 +22,18 @@ function listJSFiles(dir) {
     return results;
 }
 
-export function buildFePlugins(){
-    const files = listJSFiles(join(packageDirectorySync() || "", "./src/plugins/frontend"));
-    esbuild.buildSync({
-        entryPoints: files,
-        bundle: true,
-        outfile: join(packageDirectorySync() || "", "./static/bundle.js"),
-        minify: true,
-        platform: "browser"
-    })
-    console.log("Built fe plugins");
+export function buildFePlugins() {
+    try {
+        const files = listJSFiles(join(packageDirectorySync() || "", "./src/plugins/frontend"));
+        esbuild.buildSync({
+            entryPoints: files,
+            bundle: true,
+            outfile: join(packageDirectorySync() || "", "./static/bundle.js"),
+            minify: true,
+            platform: "browser"
+        })
+        console.log("Built fe plugins");
+    } catch(e){
+        console.warn(`Couldn't setup FE plugins\n${e.message}`)
+    }
 }
