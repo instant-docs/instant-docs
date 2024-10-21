@@ -5,7 +5,7 @@ import { join } from 'path';
 import config from '../config.js';
 import { offMenuPages, onMenuPages } from '../index.js';
 import projectDir from './get-project-dir.js';
-import { emitter } from './event.js';
+import { emitter } from './events.js';
 
 /**
  * 

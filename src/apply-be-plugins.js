@@ -3,7 +3,7 @@ import { __dir } from "./get-current-dir-file.js";
 import getJSFiles from "./get-js-files.js";
 import projectDir from "./get-project-dir.js";
 import { toImportPath } from "./to-import-path.js";
-import { emitter } from "./event.js";
+import { emitter } from "./events.js";
 
 let plugins = null;
 

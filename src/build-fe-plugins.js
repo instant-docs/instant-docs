@@ -3,7 +3,7 @@ import esbuild from "esbuild";
 import { join } from 'path';
 import getJSFiles from './get-js-files.js';
 import projectDir from "./get-project-dir.js";
-import { emitter } from "./event.js";
+import { emitter } from "./events.js";
 
 export function buildFePlugins() {
     try {
