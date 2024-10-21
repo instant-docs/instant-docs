@@ -2,9 +2,9 @@ import axios from 'axios';
 import { load } from 'cheerio';
 import { writeFileSync } from "fs";
 import { join } from 'path';
-import { packageDirectorySync } from "pkg-dir";
 import config from '../config.js';
 import { offMenuPages, onMenuPages } from '../index.js';
+import projectDir from './get-project-dir.js';
 
 /**
  * 
@@ -41,7 +41,7 @@ export async function prepareSearchIndexes(lang){
     const includeOffmenu = isTrueStr(config.ALLOW_SEARCH_IN_OFF_MENU);
     const pagesToSearch = [...onMenuPages, ...(includeOffmenu ? offMenuPages : [])]; 
     const indexContent = await Promise.all(pagesToSearch.map(page => getFullTextSearchIndex(page, lang)));
-    const indexFile = join(packageDirectorySync(), `static/search_index_${lang}.json`);
+    const indexFile = join(projectDir, `static/search_index_${lang}.json`);
     writeFileSync(indexFile, JSON.stringify(indexContent), { encoding: config.ENCODING });
     console.log(`Search index ${lang} is ready`);
 }
