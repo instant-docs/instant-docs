@@ -1,3 +1,13 @@
+function trimBy(str, char) {
+    while (str.startsWith(char)) {
+        str = str.slice(1);
+    }
+    while (str.endsWith(char)) {
+        str = str.slice(0, -1);
+    }
+    return str;
+}
+
 (function (window, document) {
     function getElements() {
         return {
@@ -51,7 +61,9 @@
     });
 
     document.querySelectorAll('nav a').forEach(a => {
-        if(a.href === location.href){
+        const trimmedLocation = trimBy(location.href, '/');
+        const trimmedHref = trimBy(a.href, '/');
+        if(trimmedLocation === trimmedHref){
             expandAllParentLists(a);
         }
     });

@@ -40,6 +40,12 @@ async function readDirAndSetRoutes({parent = '/', dir = join(projectDir, 'pages/
             const meta = metas[lang] ?? metas[config.DEFAULT_LANG];
             res.contentType('html').send(generatePage({ dir, content, meta, lang }));
           });
+          app.get(`/:lang/${url.startsWith('/') ? url.slice(1) : url }`, (req, res) => {
+            const lang = req.params.lang;
+            const { content } = getHtmlContent(dir, lang);
+            const meta = metas[lang] ?? metas[config.DEFAULT_LANG];
+            res.contentType('html').send(generatePage({ dir, content, meta, lang }));
+          })
         }
       }
       return pages;
@@ -83,6 +89,6 @@ async function getMetadatas(dir) {
 
 buildFePlugins();
 
-app.listen(PORT, () => {
+export const server = app.listen(PORT, () => {
   console.log(`Listening on ${PORT}`);
 });

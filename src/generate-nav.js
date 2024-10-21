@@ -1,3 +1,4 @@
+import { join } from "path";
 import config from "../config.js";
 import { onMenuPages } from "../index.js";
 
@@ -14,7 +15,7 @@ export default function generateNavigation(lang) {
 
     menu += pages
       .filter(page => page.url.startsWith(parentUrl) && page.url.replace(parentUrl, '').split('/').length === 2) // Get child pages
-      .sort((p1, p2) => p1.metas[lang].menuOrder - p2.metas[lang].menuOrder)
+      .sort((p1, p2) => p1.metas[lang]?.menuOrder - p2.metas[lang]?.menuOrder)
       .map(page => {
         const meta = page.metas[lang] ?? page.metas[config.DEFAULT_LANG];
         const title = meta.title || page.url.split('/').pop().replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()); // Create title from URL
@@ -25,7 +26,7 @@ export default function generateNavigation(lang) {
         // Find if there are subpages and recursively build the submenu
         if (hasSubpages) {
           li += '<li class="pure-menu-item" role="group">';
-          li += `<div class="flex-menu-item" role="group"><a class="pure-menu-link grow" href="${page.url}">${title}</a>`;
+          li += `<div class="flex-menu-item" role="group"><a class="pure-menu-link grow" href="/${lang}${page.url}">${title}</a>`;
           li += '<label><input type="checkbox" class="expand-button"/><div class="chevron"></div></label>';
           li += '</div>'
           li += '<ul>'
@@ -33,7 +34,7 @@ export default function generateNavigation(lang) {
           li += '</ul>'
         } else {
           li += `<li class="pure-menu-item">`;
-          li += `<a class="pure-menu-link" href="${page.url}">${title}</a>`;
+          li += `<a class="pure-menu-link" href="/${lang}${page.url}">${title}</a>`;
         }
 
         li += '</li>';
