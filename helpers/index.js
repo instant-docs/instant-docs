@@ -11,8 +11,9 @@ export function metadata({
     icon = "",
     lang = config.DEFAULT_LANG,
     generateTOC = true,
+    menuOrder = 0,
   } = {}) {
-  return { title, description, keywords, image, icon, lang, generateTOC };
+  return { title, description, keywords, image, icon, lang, generateTOC, menuOrder };
 }
 
 export function markdownToHtml(text){

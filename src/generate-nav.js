@@ -12,9 +12,10 @@ export default function generateNavigation(lang) {
   function buildMenu(pages, parentUrl = '') {
     let menu = '';
 
-    pages
+    menu += pages
       .filter(page => page.url.startsWith(parentUrl) && page.url.replace(parentUrl, '').split('/').length === 2) // Get child pages
-      .forEach(page => {
+      .sort((p1, p2) => p1.metas[lang].menuOrder - p2.metas[lang].menuOrder)
+      .map(page => {
         const meta = page.metas[lang] ?? page.metas[config.DEFAULT_LANG];
         const title = meta.title || page.url.split('/').pop().replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()); // Create title from URL
         const subPages = onMenuPages.filter(subPage => subPage.url.startsWith(`${page.url}/`));
@@ -36,8 +37,10 @@ export default function generateNavigation(lang) {
         }
 
         li += '</li>';
-        menu += li;
-      });
+        return li;
+      })
+      .join('');
+
     return menu;
   }
 
