@@ -5,6 +5,7 @@ import { join } from 'path';
 import config from '../config.js';
 import { offMenuPages, onMenuPages } from '../index.js';
 import projectDir from './get-project-dir.js';
+import { emitter } from './event.js';
 
 /**
  * 
@@ -43,5 +44,5 @@ export async function prepareSearchIndexes(lang){
     const indexContent = await Promise.all(pagesToSearch.map(page => getFullTextSearchIndex(page, lang)));
     const indexFile = join(projectDir, `static/search_index_${lang}.json`);
     writeFileSync(indexFile, JSON.stringify(indexContent), { encoding: config.ENCODING });
-    console.log(`Search index ${lang} is ready`);
+    emitter.emit(`search-index-${lang}`);
 }

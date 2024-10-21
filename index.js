@@ -1,16 +1,15 @@
 // @ts-check
 import express from "express";
 import { readdirSync, statSync } from "fs";
-import { join, resolve, sep, basename, extname, relative } from "path";
-import generatePage from "./src/generate-page.js";
-import getHtmlContent from "./src/get-html-content.js";
+import { basename, extname, join, relative, resolve, sep } from "path";
+import config from "./config.js";
 import { metadata } from "./helpers/index.js";
 import detectLanguage from "./middlewares/detect-language.js";
-import config from "./config.js";
-import { prepareSearchIndexes } from "./src/get-full-text-search-index.js";
 import { buildFePlugins } from "./src/build-fe-plugins.js";
-import projectDir from "./src/get-project-dir.js";
+import generatePage from "./src/generate-page.js";
 import { __dir } from "./src/get-current-dir-file.js";
+import getHtmlContent from "./src/get-html-content.js";
+import projectDir from "./src/get-project-dir.js";
 import { toImportPath } from "./src/to-import-path.js";
 
 export const app = express();
@@ -77,12 +76,8 @@ async function getMetadatas(dir) {
   return result;
 }
 
-console.log('Building frontend plugins');
 buildFePlugins();
 
 app.listen(PORT, () => {
-  console.log('Preparing search index');
-  const supportedLanguages = config.CONTENT_LANGUAGES.split(',');
-  supportedLanguages.forEach(prepareSearchIndexes);
   console.log(`Listening on ${PORT}`);
 });

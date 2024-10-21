@@ -3,6 +3,7 @@ import esbuild from "esbuild";
 import { join } from 'path';
 import getJSFiles from './get-js-files.js';
 import projectDir from "./get-project-dir.js";
+import { emitter } from "./event.js";
 
 export function buildFePlugins() {
     try {
@@ -14,8 +15,8 @@ export function buildFePlugins() {
             minify: true,
             platform: "browser"
         })
-        console.log("Built fe plugins");
     } catch(e){
         console.warn(`Couldn't setup FE plugins\n${e.message}`)
     }
+    emitter.emit('fe-plugins-ready');
 }

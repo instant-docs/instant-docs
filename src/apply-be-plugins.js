@@ -1,9 +1,9 @@
-import deasync from "deasync";
 import { join, relative } from "path";
 import { __dir } from "./get-current-dir-file.js";
 import getJSFiles from "./get-js-files.js";
 import projectDir from "./get-project-dir.js";
 import { toImportPath } from "./to-import-path.js";
+import { emitter } from "./event.js";
 
 let plugins = null;
 
@@ -21,11 +21,10 @@ async function initPlugins(){
         console.warn(`Couldn't read backend plugins\n\t${e.message}`);
         plugins = [];
     }
-    return 1;
+    emitter.emit('be-plugins-ready');
 }
 
 initPlugins();
-deasync.loopWhile(() => plugins !== null);
 
 export default function applyBePlugins({ html, meta, lang, dir }){
     return plugins.reduce((acc, f) => f({ html: acc, meta, lang, dir }), html);

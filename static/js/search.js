@@ -48,9 +48,7 @@ const searchOptions = {
 }
 function fullTextSearch(input, index){
   const f = new Fuse(index, searchOptions);
-  // console.log(f.search(input));
   const matches = f.search(input);
-  console.log(matches);
   renderSearchResults(matches);
   searchContext.loading = false;
 }
