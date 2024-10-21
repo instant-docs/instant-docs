@@ -22,6 +22,7 @@ app.use(detectLanguage);
 app.use('/', express.static('./static'));
 
 async function readDirAndSetRoutes({parent = '/', dir = join(projectDir, 'pages/on-menu')} = {}){
+  try{
     const dirs = readdirSync(dir);
     const promises = dirs.map(async (element) => {
     /** @type {Array<{url: string, metas: Record<string, object>}>} */ const pages = [];
@@ -45,6 +46,10 @@ async function readDirAndSetRoutes({parent = '/', dir = join(projectDir, 'pages/
     });
     const results = await Promise.all(promises);
     return results.reduce((acc, current) => ([...acc, ...current]), []);
+  } catch(e){
+    console.warn(`Couldn't create page route for ${dir}\n\t${e.message}`);
+    return [];
+  }
 }
 
 export const onMenuPages = await readDirAndSetRoutes();
