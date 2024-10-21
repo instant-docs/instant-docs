@@ -14,11 +14,17 @@ const emit = (...args) => {
 emitter.emit = emit;
 
 const completedEvents = [];
+let pluginsReady = false;
 let allReady = false;
 
 function checkIsAllReady(){
     if(allReady) return;
-    const mandatoryEvents = ['be-plugins-ready', 'fe-plugins-ready'];
+    const pluginsEvents = ['be-plugins-ready', 'fe-plugins-ready'];
+    if(!pluginsReady && pluginsEvents.every(e => completedEvents.includes(e))){
+        pluginsReady = true;
+        emitter.emit('create-search-index');
+    }
+    const mandatoryEvents = [...pluginsEvents, 'search-index-ready'];
     const isAllReady = mandatoryEvents.every(e => completedEvents.includes(e));
     if(isAllReady){
         allReady = true;
@@ -26,8 +32,8 @@ function checkIsAllReady(){
     }
 }
 
-emitter.on('all-ready', async () => {
+emitter.on('create-search-index', async () => {
     const supportedLanguages = config.CONTENT_LANGUAGES.split(',');
     await Promise.all(supportedLanguages.map(prepareSearchIndexes));
-    emitter.emit('search-index-complete');
+    emitter.emit('search-index-ready');
 });
