@@ -1,9 +1,9 @@
 import globals from "globals";
 import pluginJs from "@eslint/js";
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 
 
 export default [
-  pluginJs.configs.recommended,
   {
     ignores: [
       "dist/*",
@@ -17,4 +17,6 @@ export default [
     files: ["static/**/*.[jt]s?(x)", "src/plugins/frontend/**/*.[jt]s?(x)"],
     languageOptions: { globals: globals.browser },
   },
+  pluginJs.configs.recommended,
+  eslintPluginPrettierRecommended,
 ];
