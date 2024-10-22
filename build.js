@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { copyFolder } from 'copy-folder-util';
-import { mkdirSync, rmSync, writeFileSync } from 'fs';
+import { existsSync, mkdirSync, rmSync, writeFileSync } from 'fs';
 import { dirname, join } from 'path';
 import config from './config.js';
 import { offMenuPages, onMenuPages, server } from './index.js';
@@ -13,7 +13,9 @@ export default function build() {
       try {
         const allLanguages = config.CONTENT_LANGUAGES.split(',');
         const targetDir = join(projectDir, config.BUILD_DIR);
-        rmSync(targetDir, { recursive: true });
+        if (existsSync(targetDir)) {
+          rmSync(targetDir, { recursive: true });
+        }
         const allPages = [...onMenuPages, ...offMenuPages];
         await Promise.all(
           allLanguages.map(
