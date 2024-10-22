@@ -10,8 +10,7 @@
   "scripts": {
     "start": "npx instant-docs",
     "dev": "node --watch index.js",
-    "build": "node build.js",
-    "test": "node test.js",
+    "build": "npx instant-docs --build",
     "lint": "eslint ."
   },
   "keywords": [
