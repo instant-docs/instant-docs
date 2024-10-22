@@ -1,5 +1,5 @@
 {
-  "name": "@instant-docs/instant-docs",
+  "name": "instant-docs",
   "version": "0.0.1-alpha",
   "description": "Create docs faster than light",
   "main": "index.js",
