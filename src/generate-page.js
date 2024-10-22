@@ -10,13 +10,14 @@ import getTemplate from "./get-template.js";
 import getSearchForm from "./get-search-form.js";
 import applyBePlugins from "./apply-be-plugins.js";
 
+const searchForm = getSearchForm();
+
 export default function generatePage({ dir, content = '', meta = {}, lang = config.DEFAULT_LANG } = {}){
     const templateHtml = readFileSync(getTemplate(dir), { encoding: config.ENCODING });
     const htmlWithContentOnly = templateHtml.replace('%content%', content);
     const logo = getLogo(dir, lang);
     const header = getHeader(dir, lang);
     const footer = getFooter(dir, lang);
-    const searchForm = getSearchForm();
     const searchText = dictionary.search[lang];
     const toc = meta.generateTOC ? generateTableOfContents(htmlWithContentOnly, lang) : "";
     const html = htmlWithContentOnly
