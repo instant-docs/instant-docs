@@ -1,6 +1,6 @@
 {
-  "name": "instant-docs",
-  "version": "1.0.0",
+  "name": "@instant-docs/instant-docs",
+  "version": "0.0.1-alpha",
   "description": "Create docs faster than light",
   "main": "index.js",
   "type": "module",
