@@ -1,4 +1,4 @@
-import { packageDirectorySync } from "pkg-dir";
+import { packageDirectorySync } from 'pkg-dir';
 
 const projectDir = packageDirectorySync() || '.';
 

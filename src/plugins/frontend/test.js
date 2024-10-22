@@ -1,3 +1,3 @@
 window.mlog = () => {
-    console.log("my log");
-}
+  console.log('my log');
+};

@@ -1,37 +1,35 @@
 // @ts-check
-import express from "express";
-import { readdirSync, statSync } from "fs";
-import { basename, extname, join, relative, resolve, sep } from "path";
-import config from "./config.js";
-import { metadata } from "./helpers/index.js";
-import detectLanguage from "./middlewares/detect-language.js";
-import { buildFePlugins } from "./src/build-fe-plugins.js";
-import generatePage from "./src/generate-page.js";
-import { __dir } from "./src/get-current-dir-file.js";
-import getHtmlContent from "./src/get-html-content.js";
-import projectDir from "./src/get-project-dir.js";
-import { toImportPath } from "./src/to-import-path.js";
+import express from 'express';
+import { readdirSync, statSync } from 'fs';
+import { basename, extname, join, relative, resolve, sep } from 'path';
+import config from './config.js';
+import { metadata } from './helpers/index.js';
+import detectLanguage from './middlewares/detect-language.js';
+import { buildFePlugins } from './src/build-fe-plugins.js';
+import generatePage from './src/generate-page.js';
+import { __dir } from './src/get-current-dir-file.js';
+import getHtmlContent from './src/get-html-content.js';
+import projectDir from './src/get-project-dir.js';
+import { toImportPath } from './src/to-import-path.js';
 
 export const app = express();
 
-const {
-  PORT
-} = config;
+const { PORT } = config;
 
 app.use(detectLanguage);
 app.use('/', express.static('./static'));
 
-async function readDirAndSetRoutes({parent = '/', dir = join(projectDir, 'pages/on-menu')} = {}){
-  try{
+async function readDirAndSetRoutes({ parent = '/', dir = join(projectDir, 'pages/on-menu') } = {}) {
+  try {
     const dirs = readdirSync(dir);
     const promises = dirs.map(async (element) => {
-    /** @type {Array<{url: string, metas: Record<string, object>}>} */ const pages = [];
+      /** @type {Array<{url: string, metas: Record<string, object>}>} */ const pages = [];
       const absolute = resolve(dir, element);
       if (statSync(absolute).isDirectory()) {
         const subPages = await readDirAndSetRoutes({ parent: join(parent, element), dir: join(dir, element) });
         pages.push(...subPages);
       } else {
-        if (element.startsWith('content') && !pages.some(page => page.url === absolute)) {
+        if (element.startsWith('content') && !pages.some((page) => page.url === absolute)) {
           const url = parent.split(sep).join('/');
           const metas = await getMetadatas(dir);
           pages.push({ url, metas });
@@ -40,19 +38,19 @@ async function readDirAndSetRoutes({parent = '/', dir = join(projectDir, 'pages/
             const meta = metas[lang] ?? metas[config.DEFAULT_LANG];
             res.contentType('html').send(generatePage({ dir, content, meta, lang }));
           });
-          app.get(`/:lang/${url.startsWith('/') ? url.slice(1) : url }`, (req, res) => {
+          app.get(`/:lang/${url.startsWith('/') ? url.slice(1) : url}`, (req, res) => {
             const lang = req.params.lang;
             const { content } = getHtmlContent(dir, lang);
             const meta = metas[lang] ?? metas[config.DEFAULT_LANG];
             res.contentType('html').send(generatePage({ dir, content, meta, lang }));
-          })
+          });
         }
       }
       return pages;
     });
     const results = await Promise.all(promises);
-    return results.reduce((acc, current) => ([...acc, ...current]), []);
-  } catch(e){
+    return results.reduce((acc, current) => [...acc, ...current], []);
+  } catch (e) {
     console.warn(`Couldn't create page route for ${dir}\n\t${e.message}`);
     return [];
   }
@@ -63,15 +61,15 @@ export const offMenuPages = await readDirAndSetRoutes({ dir: './pages/off-menu' 
 
 console.log({
   onMenuPages,
-  offMenuPages
-})
+  offMenuPages,
+});
 
 async function getMetadatas(dir) {
-  const files =  readdirSync(dir);
-  const metaFiles = files.filter(fileName => fileName.startsWith('meta') && fileName.endsWith('.js'));
+  const files = readdirSync(dir);
+  const metaFiles = files.filter((fileName) => fileName.startsWith('meta') && fileName.endsWith('.js'));
   if (metaFiles.length === 0) {
     return {
-      [config.DEFAULT_LANG]: metadata()
+      [config.DEFAULT_LANG]: metadata(),
     };
   }
   const result = {};
