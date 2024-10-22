@@ -2,3 +2,10 @@ dist/
 node_modules/
 pages/
 static/
+src/plugins/
+.node-version
+.nvmrc
+.prettierrc
+eslint.config.js
+*lock.yaml
+README.md
