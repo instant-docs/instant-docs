@@ -1,4 +1,3 @@
-import { join } from "path";
 import config from "../config.js";
 import { onMenuPages } from "../index.js";
 
