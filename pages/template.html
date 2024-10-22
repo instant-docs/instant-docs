@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="%lang%">
+  <head>
+    <meta charset="%encoding%" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="%meta_description%" />
+    <link rel="icon" href="/assets/favicon.svg">
+    <title>%page_title%</title>
+    <link rel="stylesheet" href="/css/pure-min.css" />
+    <link rel="stylesheet" href="/css/sidebar.css" />
+    <script type="text/javascript" src="/bundle.js" ></script>
+  </head>
+  <body>
+    <div id="layout">
+      <div id="menu">
+        <nav class="pure-menu">
+          %logo%
+
+          <ul class="pure-menu-list">
+            %nav%
+          </ul>
+        </nav>
+        <a href="#menu" id="menuLink" class="menu-link">
+          <span></span>
+        </a>
+      </div>
+
+      <main id="main">
+        %header%
+        <div class="content">
+          %search%
+          <section id="table-of-contents">%table_of_contents%</section>
+          %content%
+        </div>
+        %footer%
+      </main>
+    </div>
+
+    <script src="/js/ui.js"></script>
+    <script type="module" src="/js/search.js" defer></script>
+  </body>
+</html>

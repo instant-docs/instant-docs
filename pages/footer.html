@@ -1,0 +1,43 @@
+<style>
+    footer{
+        box-sizing: border-box;
+        padding: 2rem;
+        background-color: #121212;
+        color: #eee;
+        height: 200px;
+    }
+    .grid{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: end;
+        gap: 2rem;
+    }
+    .column{
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .column a{
+        display: contents;
+    }
+    .footer-icon{
+        height: 1rem;
+        width: auto;
+        object-fit: contain;
+    }
+</style>
+<footer>
+    <center>Instant Docs</center>
+    <div class="grid">
+        <div class="column">
+            <span>powered by</span>
+            <a href="https://www.fusejs.io/" target="_blank"><img class="footer-icon" src="/assets/fuse.png" alt="fusejs"></a>
+        </div>
+        <div class="column">
+            <span></span>
+            <a href="https://expressjs.com/" target="_blank"><img class="footer-icon" src="/assets/express-icon.svg" alt="expressjs"></a>
+            <a href="https://purecss.io/" target="_blank"><img class="footer-icon" src="/assets/pure.ico" alt="purecss"></a>
+        </div>
+    </div>
+</footer>
