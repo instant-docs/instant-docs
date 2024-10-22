@@ -4,7 +4,7 @@ import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 
 export default [
   {
-    ignores: ['dist/*', 'static/js/fuse_7_0_0.js'],
+    ignores: ['dist/*', 'static/js/fuse_7_0_0.js', '**/bundle.js'],
   },
   {
     languageOptions: { globals: globals.node },
