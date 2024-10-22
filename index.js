@@ -29,8 +29,8 @@ async function readDirAndSetRoutes({ parent = '/', dir = join(projectDir, 'pages
         const subPages = await readDirAndSetRoutes({ parent: join(parent, element), dir: join(dir, element) });
         pages.push(...subPages);
       } else {
-        if (element.startsWith('content') && !pages.some((page) => page.url === absolute)) {
-          const url = parent.split(sep).join('/');
+        const url = parent.split(sep).join('/');
+        if (element.startsWith('content') && !pages.some((page) => page.url === url)) {
           const metas = await getMetadatas(dir);
           pages.push({ url, metas });
           app.get(url, (_req, res) => {
