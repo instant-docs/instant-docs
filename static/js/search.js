@@ -41,7 +41,7 @@ const search = debounceByKey('searchInput')((e) => {
 });
 
 const searchOptions = {
-  // includeScore: true,
+  ignoreLocation: true,
   isCaseSensitive: false,
   shouldSort: true,
   includeMatches: true,
