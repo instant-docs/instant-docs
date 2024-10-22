@@ -14,7 +14,11 @@ export default function generateNavigation(lang) {
 
     menu += pages
       .filter((page) => page.url.startsWith(parentUrl) && page.url.replace(parentUrl, '').split('/').length === 2) // Get child pages
-      .sort((p1, p2) => p1.metas[lang]?.menuOrder - p2.metas[lang]?.menuOrder)
+      .sort((p1, p2) => {
+        const meta1 = p1.metas[lang] ?? p1.metas[config.DEFAULT_LANG];
+        const meta2 = p2.metas[lang] ?? p2.metas[config.DEFAULT_LANG];
+        return meta1?.menuOrder - meta2?.menuOrder;
+      })
       .map((page) => {
         const meta = page.metas[lang] ?? page.metas[config.DEFAULT_LANG];
         const title =
