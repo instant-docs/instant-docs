@@ -22,8 +22,8 @@ app.use('/', express.static('./static'));
 async function readDirAndSetRoutes({ parent = '/', dir = join(projectDir, 'pages/on-menu') } = {}) {
   try {
     const dirs = readdirSync(dir);
-    const promises = dirs.map(async (element) => {
-      /** @type {Array<{url: string, metas: Record<string, object>}>} */ const pages = [];
+    /** @type {Array<{url: string, metas: Record<string, object>}>} */ const pages = [];
+    for (const element of dirs) {
       const absolute = resolve(dir, element);
       if (statSync(absolute).isDirectory()) {
         const subPages = await readDirAndSetRoutes({ parent: join(parent, element), dir: join(dir, element) });
@@ -46,10 +46,8 @@ async function readDirAndSetRoutes({ parent = '/', dir = join(projectDir, 'pages
           });
         }
       }
-      return pages;
-    });
-    const results = await Promise.all(promises);
-    return results.reduce((acc, current) => [...acc, ...current], []);
+    }
+    return pages;
   } catch (e) {
     console.warn(`Couldn't create page route for ${dir}\n\t${e.message}`);
     return [];
