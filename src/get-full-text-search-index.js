@@ -35,7 +35,7 @@ async function getFullTextSearchIndex(page, lang) {
 }
 
 function isTrueStr(str) {
-  return str === '1';
+  return ['1', 'true'].includes(str);
 }
 
 export async function prepareSearchIndexes(lang) {
