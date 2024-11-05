@@ -4,14 +4,19 @@ import { join } from 'path';
 import getJSFiles from './get-js-files.js';
 import projectDir from './get-project-dir.js';
 import { emitter } from './events.js';
+import { existsSync, mkdirSync } from 'fs';
 
 export function buildFePlugins() {
   try {
     const files = getJSFiles(join(projectDir, 'src/plugins/frontend'));
+    const outdir = join(projectDir, 'static', 'js');
+    if (!existsSync(outdir)) {
+      mkdirSync(outdir, { recursive: true });
+    }
     esbuild.buildSync({
       entryPoints: files,
       bundle: true,
-      outdir: join(projectDir, 'static'),
+      outdir,
       minify: true,
       treeShaking: true,
       platform: 'browser',
