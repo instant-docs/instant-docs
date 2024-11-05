@@ -11,9 +11,11 @@ export function buildFePlugins() {
     esbuild.buildSync({
       entryPoints: files,
       bundle: true,
-      outfile: join(projectDir, 'static/bundle.js'),
+      outdir: join(projectDir, 'static'),
       minify: true,
+      treeShaking: true,
       platform: 'browser',
+      drop: ['debugger'],
     });
   } catch (e) {
     console.warn(`Couldn't setup FE plugins\n${e.message}`);
