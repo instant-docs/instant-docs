@@ -18,6 +18,9 @@ const { PORT } = config;
 
 app.use(detectLanguage);
 app.use('/', express.static('./static'));
+app.get('/config', (_req, res) => {
+  res.json(config);
+});
 
 async function readDirAndSetRoutes({ parent = '/', dir = join(projectDir, 'pages/on-menu') } = {}) {
   try {

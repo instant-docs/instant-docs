@@ -129,4 +129,4 @@ dist
 .yarn/install-state.gz
 .pnp.*
 static/search_index*.json
-static/bundle.js
+static/*.js
