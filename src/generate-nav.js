@@ -1,5 +1,6 @@
 import config from '../config.js';
 import { onMenuPages } from '../index.js';
+import getLinkFor from './get-link-for.js';
 
 export default function generateNavigation(lang) {
   /**
@@ -35,7 +36,7 @@ export default function generateNavigation(lang) {
         // Find if there are subpages and recursively build the submenu
         if (hasSubpages) {
           li += '<li class="pure-menu-item" role="group">';
-          li += `<div class="flex-menu-item" role="group"><a class="pure-menu-link grow" href="/${lang}${page.url}">${title}</a>`;
+          li += `<div class="flex-menu-item" role="group"><a class="pure-menu-link grow" href="${getLinkFor({ page, lang })}">${title}</a>`;
           li += '<label><input type="checkbox" class="expand-button"/><div class="chevron"></div></label>';
           li += '</div>';
           li += '<ul>';
@@ -43,7 +44,7 @@ export default function generateNavigation(lang) {
           li += '</ul>';
         } else {
           li += `<li class="pure-menu-item">`;
-          li += `<a class="pure-menu-link" href="/${lang}${page.url}">${title}</a>`;
+          li += `<a class="pure-menu-link" href="${getLinkFor({ page, lang })}">${title}</a>`;
         }
 
         li += '</li>';
