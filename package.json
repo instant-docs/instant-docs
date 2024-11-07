@@ -1,6 +1,6 @@
 {
   "name": "instant-docs",
-  "version": "1.0.0-alpha",
+  "version": "1.0.0",
   "description": "Create docs faster than light",
   "main": "index.js",
   "type": "module",
