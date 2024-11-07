@@ -5,11 +5,12 @@ import getJSFiles from './get-js-files.js';
 import projectDir from './get-project-dir.js';
 import { emitter } from './events.js';
 import { existsSync, mkdirSync } from 'fs';
+import config from '../config.js';
 
 export function buildFePlugins() {
   try {
     const files = getJSFiles(join(projectDir, 'src/plugins/frontend'));
-    const outdir = join(projectDir, 'static', 'js');
+    const outdir = join(projectDir, config.PLUGINS_DIR);
     if (!existsSync(outdir)) {
       mkdirSync(outdir, { recursive: true });
     }

@@ -7,5 +7,6 @@ export default {
   ALLOW_SEARCH_IN_OFF_MENU: 'true',
   CONTENT_LANGUAGES: 'en,fr,de,tr',
   BUILD_DIR: './dist',
+  PLUGINS_DIR: 'static/plugins',
   LINK_FORMAT: '/%lang%/%slug%',
 };
