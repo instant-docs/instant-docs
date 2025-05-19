@@ -20,6 +20,7 @@ export default function generatePage({ dir, content = '', meta = {}, lang = conf
     html = html.replaceAll('%content%', content);
   }
   const varMap = {
+    '%timestamp%': Date.now(),
     '%logo%': getLogo(dir, lang),
     '%lang%': lang,
     '%header%': getHeader(dir, lang),
