@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="%lang%" x-version="%version%">
+  <head>
+    <meta charset="%encoding%" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="%meta_description%" />
+    <link rel="icon" href="/latest/assets/favicon.svg">
+    <title>%meta_title%</title>
+    <link rel="stylesheet" href="/latest/css/pure-min.css?t=%timestamp%" />
+    <link rel="stylesheet" href="/latest/css/sidebar.css?t=%timestamp%" />
+    <script type="text/javascript" src="/latest/js/logo.js?t=%timestamp%"></script>
+    <script type="text/javascript" src="/latest/js/globals.js?t=%timestamp%"></script>
+  </head>
+  <body>
+    <div id="layout">
+      <div id="sidebar">
+        %logo%
+        <div id="menu">
+          <nav class="pure-menu">
+            <ul class="pure-menu-list">
+              %nav%
+            </ul>
+          </nav>
+          <a href="#menu" id="menuLink" class="menu-link">
+            <span></span>
+          </a>
+        </div>
+      </div>
+
+      <main id="main">
+        %header%
+        <div class="content">
+          %search%
+          <section id="table-of-contents">%table_of_contents%</section>
+          %content%
+        </div>
+        %footer%
+      </main>
+    </div>
+
+    <script src="/latest/js/ui.js"></script>
+    <script type="module" src="/latest/js/search.js" defer></script>
+  </body>
+</html>

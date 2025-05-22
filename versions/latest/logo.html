@@ -1,0 +1,31 @@
+<style>
+  #logo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-right: 1rem;
+    background: var(--accent);
+    color: var(--color);
+  }
+  #logo-wrapper a {
+    padding: 0;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    margin-right: .5em;
+    text-decoration: none;
+    max-width: 200px;
+    font-size: 16pt;
+  }
+
+  #logo {
+    height: 2em;
+  }
+</style>
+<div id="logo-wrapper">
+  <a href="%home_link%">
+    <img id="logo" src="/latest/assets/favicon.svg" />
+    <b>Instant Docs</b>
+  </a>
+  %version_options%
+</div>
