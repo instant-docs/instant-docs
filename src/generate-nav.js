@@ -1,8 +1,8 @@
 import config from '../config.js';
-import { onMenuPages } from '../index.js';
+import { onMenuPagesByVersion } from '../index.js';
 import getLinkFor from './get-link-for.js';
 
-export default function generateNavigation(lang) {
+export default function generateNavigation(lang, version) {
   /**
    * @param {Array<{
    * url: string;
@@ -29,7 +29,7 @@ export default function generateNavigation(lang) {
             .pop()
             .replace(/-/g, ' ')
             .replace(/\b\w/g, (c) => c.toUpperCase()); // Create title from URL
-        const subPages = onMenuPages.filter((subPage) => subPage.url.startsWith(`${page.url}/`));
+        const subPages = onMenuPagesByVersion[version].filter((subPage) => subPage.url.startsWith(`${page.url}/`));
         const hasSubpages = subPages.length > 0;
         let li = '';
 
@@ -56,6 +56,6 @@ export default function generateNavigation(lang) {
   }
 
   // Get only top-level pages (without slashes beyond the root)
-  const topLevelPages = onMenuPages.filter((page) => page.url.split('/').length === 2);
-  return buildMenu(topLevelPages);
+  const topLevelPages = onMenuPagesByVersion[version].filter((page) => page.url.split('/').length === 3);
+  return buildMenu(topLevelPages, `/${version}`);
 }
