@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync } from 'fs';
 import { join } from 'path';
 import config from '../config.js';
-import { markdownToHtml } from '../helpers/index.js';
+import { markdownToHtml } from '#helpers/index.js';
 import getFilename from './get-filename.js';
 
 export default function getHtmlContent(dir, lang) {

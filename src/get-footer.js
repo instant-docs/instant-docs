@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync } from 'fs';
 import { dirname, join } from 'path';
 import config from '../config.js';
-import { markdownToHtml } from '../helpers/index.js';
+import { markdownToHtml } from '#helpers/index.js';
 
 export default function getfooter(dir, lang) {
   const footerFile = getfooterFileInDir(dir, lang);
@@ -17,7 +17,7 @@ export default function getfooter(dir, lang) {
 }
 
 function getfooterFileInDir(dir, lang) {
-  if (dir === '.' || !dir.includes('pages')) {
+  if (dir === '.' || !dir) {
     return undefined;
   }
   const files = readdirSync(dir);

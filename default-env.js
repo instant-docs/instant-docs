@@ -8,5 +8,5 @@ export default {
   CONTENT_LANGUAGES: 'en,fr,de,tr',
   BUILD_DIR: './dist',
   PLUGINS_DIR: 'static/plugins',
-  LINK_FORMAT: '/%lang%/%slug%',
+  LINK_FORMAT: '/%slug%/%lang%',
 };

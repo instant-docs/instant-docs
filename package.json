@@ -10,7 +10,7 @@
   "scripts": {
     "start": "npx instant-docs",
     "dev": "node --watch index.js",
-    "build": "npx instant-docs --build",
+    "build": "node ./bin/index.js --build",
     "lint": "eslint ."
   },
   "keywords": [
@@ -58,5 +58,8 @@
     "eslint-plugin-prettier": "^5.2.1",
     "globals": "^15.11.0",
     "prettier": "3.3.3"
+  },
+  "imports": {
+    "#helpers/*": "./helpers/*"
   }
 }

@@ -1,6 +1,7 @@
 import EventEmitter from 'events';
 import config from '../config.js';
 import { prepareSearchIndexes } from './get-full-text-search-index.js';
+import { versions } from '../index.js';
 
 export const emitter = new EventEmitter();
 const originalEmit = emitter.emit.bind(emitter);
@@ -34,6 +35,7 @@ function checkIsAllReady() {
 
 emitter.on('create-search-index', async () => {
   const supportedLanguages = config.CONTENT_LANGUAGES.split(',');
-  await Promise.all(supportedLanguages.map(prepareSearchIndexes));
+  const langVerCombination = supportedLanguages.map(lang => versions.map(v => [lang, v])).flat();
+  await Promise.all(langVerCombination.map(([lang, version]) => prepareSearchIndexes({ lang, version })));
   emitter.emit('search-index-ready');
 });
