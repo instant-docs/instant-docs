@@ -12,6 +12,7 @@ import applyBePlugins from './apply-be-plugins.js';
 import putVariables from './put-variables-to-text.js';
 import getLinkFor from './get-link-for.js';
 import getVersionOptions from './get-version-options.js';
+import getStaticPath from './get-static-path.js';
 
 export default function generatePage({ dir = '', content = '', meta = {}, lang = config.DEFAULT_LANG, version = 'latest' } = {}) {
   const searchForm = getSearchForm(version);
@@ -29,9 +30,10 @@ export default function generatePage({ dir = '', content = '', meta = {}, lang =
     '%search%': searchForm,
     '%search_text%': dictionary.search[lang] || 'Search',
     '%encoding%': config.ENCODING,
-    '%home_link%': getLinkFor({ lang, version, page: { url: `/${version}`, metas: {} } }),
+    '%home_link%': getLinkFor({ lang, version, page: { url: `/`, metas: {} } }),
     '%nav%': generateNavigation(lang, version),
     '%version_options%': getVersionOptions(version),
+    '%static_path%': getStaticPath({ version }),
   };
   html = putVariables({ text: html, object: varMap, placeholderAlreadyWrapped: true });
   html = putVariables({ text: html, object: meta, prefix: 'meta_' });

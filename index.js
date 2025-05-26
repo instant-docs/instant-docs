@@ -13,6 +13,7 @@ import getLinkFor from './src/get-link-for.js';
 import projectDir from './src/get-project-dir.js';
 import { toImportPath } from './src/to-import-path.js';
 import { searchIndexRouter } from './src/get-full-text-search-index.js';
+import getStaticPath from './src/get-static-path.js';
 
 export const app = express();
 
@@ -23,7 +24,7 @@ if (existsSync(projectBuildDir)) {
   rmSync(projectBuildDir, { recursive: true });
 }
 
-const { PORT } = config;
+const { PORT, PROTOCOL } = config;
 
 app.use(detectLanguage);
 
@@ -39,9 +40,10 @@ async function readDirAndSetRoutes({ parent = '/', dir = './versions/latest/on-m
     const resolved = resolve(dir);
     dirType = dirType || /** @type { 'on-menu' | 'off-menu' | 'static'} */ (resolved.split(sep).at(-1));
     if (dirType === 'static') {
-      const targetDir = join(projectDir, config.BUILD_DIR, version);
+      const staticPath = getStaticPath({ version });
+      const targetDir = join(projectDir, config.BUILD_DIR, staticPath);
       cpSync(resolved, targetDir, { recursive: true });
-      app.use(`/${version}`, express.static(resolved));
+      app.use(staticPath, express.static(resolved));
       return [];
     }
     const dirs = readdirSync(dir);
@@ -55,36 +57,32 @@ async function readDirAndSetRoutes({ parent = '/', dir = './versions/latest/on-m
     for (const element of dirs) {
       const absolute = resolve(dir, element);
       if (statSync(absolute).isDirectory()) {
-        if (element === 'static') {
-          app.use(`/${version}`, express.static(absolute));
-        } else {
-          const subPages = await readDirAndSetRoutes({ parent: join(parent, element), dir: join(dir, element), version, dirType });
-          pages.push(...subPages);
-        }
+        const subPages = await readDirAndSetRoutes({ parent: join(parent, element), dir: join(dir, element), version, dirType });
+        pages.push(...subPages);
       } else {
-        let urlSegment = parent.split(sep).join('/');
-        urlSegment = urlSegment.startsWith('/') ? urlSegment.slice(1) : urlSegment;
-        const url = urlSegment ? `/${version}/${urlSegment}` : `/${version}`;
-        if (element.startsWith('content') && !pages.some((page) => page.url === url)) {
-          const metas = await getMetadatas(dir);
-          const page = { url, metas };
+        const urlSegment = parent.split(sep).join('/');
+        const page = { url: urlSegment, metas: {} };
+        const url = getLinkFor({ page, lang: undefined, version });
+        if (element.startsWith('content') && !pages.some((page) => page.url === urlSegment)) {
+          page.metas = await getMetadatas(dir);
           pages.push(page);
           if (dirType === 'on-menu') {
             onMenuPagesByVersion[version].push(page);
           } else {
             offMenuPagesByVersion[version].push(page);
           }
-          app.get(url, (_req, res) => {
-            const { content, lang } = getHtmlContent(dir, res.locals.detectedLanguage);
-            const meta = metas[lang] ?? metas[config.DEFAULT_LANG];
-            res.contentType('html').send(generatePage({ dir, content, meta, lang, version }));
-          });
-          app.get(getLinkFor({ page, lang: undefined }), (req, res) => {
-            const lang = req.params.lang;
+          app.get(url, (req, res) => {
+            const lang = req.params.lang || res.locals.detectedLanguage;
             const { content } = getHtmlContent(dir, lang);
-            const meta = metas[lang] ?? metas[config.DEFAULT_LANG];
+            const meta = page.metas[lang] ?? page.metas[config.DEFAULT_LANG];
             res.contentType('html').send(generatePage({ dir, content, meta, lang, version }));
           });
+          // app.get(getLinkFor({ page, lang: undefined }), (req, res) => {
+          //   const lang = req.params.lang;
+          //   const { content } = getHtmlContent(dir, lang);
+          //   const meta = page.metas[lang] ?? page.metas[config.DEFAULT_LANG];
+          //   res.contentType('html').send(generatePage({ dir, content, meta, lang, version }));
+          // });
         }
       }
     }
@@ -143,5 +141,5 @@ async function getMetadatas(dir) {
 buildFePlugins();
 
 export const server = app.listen(PORT, () => {
-  console.log(`Listening on ${PORT}`);
+  console.log(`Running on ${PROTOCOL}://localhost:${PORT}`);
 });
