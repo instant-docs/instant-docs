@@ -19,9 +19,10 @@ export default function build() {
                 async (lang) =>
                   await Promise.all(
                     allPages.map(async (page) => {
-                      const response = await axios.get(getLinkFor({ page, lang }), { baseURL: `${config.PROTOCOL}://localhost:${config.PORT}` });
+                      const path = getLinkFor({ page, lang, version });
+                      const response = await axios.get(path, { baseURL: `${config.PROTOCOL}://localhost:${config.PORT}` });
                       const html = response.data;
-                      const filepath = join(projectBuildDir, page.url, lang, 'index.html');
+                      const filepath = join(projectBuildDir, path, 'index.html');
                       mkdirSync(dirname(filepath), { recursive: true });
                       writeFileSync(filepath, html);
                     }),

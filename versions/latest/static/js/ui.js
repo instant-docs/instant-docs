@@ -78,8 +78,4 @@ function trimBy(str, char) {
     }
     return expandAllParentLists(node.parentElement);
   }
-
-  document.getElementById('version-options').addEventListener('change', (e) => {
-    window.location.assign(`/${e.target.value}`);
-  });
 })(this, this.document);

@@ -14,7 +14,7 @@ export default function generateNavigation(lang, version) {
     let menu = '';
 
     menu += pages
-      .filter((page) => page.url.startsWith(parentUrl) && page.url.replace(parentUrl, '').split('/').length === 2) // Get child pages
+      .filter((page) => page.url.startsWith(parentUrl) && page.url.replace(parentUrl, '').replace(/^\//, '').split('/').length === 1) // Get child pages
       .sort((p1, p2) => {
         const meta1 = p1.metas[lang] ?? p1.metas[config.DEFAULT_LANG];
         const meta2 = p2.metas[lang] ?? p2.metas[config.DEFAULT_LANG];
@@ -36,7 +36,7 @@ export default function generateNavigation(lang, version) {
         // Find if there are subpages and recursively build the submenu
         if (hasSubpages) {
           li += '<li class="pure-menu-item" role="group">';
-          li += `<div class="flex-menu-item" role="group"><a class="pure-menu-link grow" href="${getLinkFor({ page, lang })}">${title}</a>`;
+          li += `<div class="flex-menu-item" role="group"><a class="pure-menu-link grow" href="${getLinkFor({ page, lang, version })}">${title}</a>`;
           li += '<label><input type="checkbox" class="expand-button"/><div class="chevron"></div></label>';
           li += '</div>';
           li += '<ul>';
@@ -44,7 +44,7 @@ export default function generateNavigation(lang, version) {
           li += '</ul>';
         } else {
           li += `<li class="pure-menu-item">`;
-          li += `<a class="pure-menu-link" href="${getLinkFor({ page, lang })}">${title}</a>`;
+          li += `<a class="pure-menu-link" href="${getLinkFor({ page, lang, version })}">${title}</a>`;
         }
 
         li += '</li>';
@@ -56,6 +56,6 @@ export default function generateNavigation(lang, version) {
   }
 
   // Get only top-level pages (without slashes beyond the root)
-  const topLevelPages = onMenuPagesByVersion[version].filter((page) => page.url.split('/').length === 3);
-  return buildMenu(topLevelPages, `/${version}`);
+  const topLevelPages = onMenuPagesByVersion[version].filter((page) => page.url.lastIndexOf('/') <= 0);
+  return buildMenu(topLevelPages, `/`);
 }
