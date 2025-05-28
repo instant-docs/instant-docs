@@ -73,16 +73,11 @@ async function readDirAndSetRoutes({ parent = '/', dir = './versions/latest/on-m
           }
           app.get(url, (req, res) => {
             const lang = req.params.lang || res.locals.detectedLanguage;
-            const { content } = getHtmlContent(dir, lang);
+            const { content, dictionaryMap } = getHtmlContent(dir, lang);
             const meta = page.metas[lang] ?? page.metas[config.DEFAULT_LANG];
-            res.contentType('html').send(generatePage({ dir, content, meta, lang, version }));
+            const generatedPage = generatePage({ dir, content, meta, lang, version, dictionaryMap });
+            res.contentType('html').send(generatedPage);
           });
-          // app.get(getLinkFor({ page, lang: undefined }), (req, res) => {
-          //   const lang = req.params.lang;
-          //   const { content } = getHtmlContent(dir, lang);
-          //   const meta = page.metas[lang] ?? page.metas[config.DEFAULT_LANG];
-          //   res.contentType('html').send(generatePage({ dir, content, meta, lang, version }));
-          // });
         }
       }
     }

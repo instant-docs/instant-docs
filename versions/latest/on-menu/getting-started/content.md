@@ -1,13 +1,10 @@
-## How to Install?
-Installation steps
+## %d%.how_to_install
+%d%.installation_steps
 - git clone
 - npm install
 
-### Post install
-yapma bunu
+### %d%.post_install
+%d%.avoid_uninstalling
 
-#### Post post install
-h4 level test
-
-## Quick start
+## %d%.quick_start
 `npm start`

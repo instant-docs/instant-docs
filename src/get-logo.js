@@ -12,7 +12,7 @@ export default function getLogo(dir, lang) {
   return content;
 }
 
-function getLogoFileInDir(dir, lang, version) {
+function getLogoFileInDir(dir, lang) {
   if (!dir || dir === '.') {
     return undefined;
   }

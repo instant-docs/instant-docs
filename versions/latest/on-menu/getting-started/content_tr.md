@@ -4,7 +4,7 @@ Yükleme adımları
 - npm install
 
 ### Yükleme sonrası
-yapma bunu
+Sakın silme
 
 #### Yükleme sonrası sonrası
 h4 level test

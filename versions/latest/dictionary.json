@@ -1,0 +1,31 @@
+{
+    "en": {
+        "how_to_install": "How to Install",
+        "installation_steps": "Intallation Steps",
+        "post_install": "Post Install",
+        "avoid_uninstalling": "Avoid Uninstalling",
+        "quick_start": "Quick Start",
+        "search": "Search",
+        "ToC": "Table of Contents"
+
+    },
+    "tr": {
+        "how_to_install": "Nasıl Yüklenir",
+        "installation_steps": "Yükleme Adımları",
+        "post_install": "Yükleme Sonrası",
+        "avoid_uninstalling": "Kaldırmaktan kaçının",
+        "quick_start": "Hızlı Başlangıç",
+        "search": "Ara",
+        "ToC": "İçindekiler"
+
+    },
+    "ae": {
+        "how_to_install": "كيفية التثبيت؟",
+        "installation_steps": "خطوات التثبيت",
+        "post_install": "بعد تثبيت",
+        "avoid_uninstalling": "تجنب إلغاء التثبيت",
+        "quick_start": "البدء السريع",
+        "search": "بحث",
+        "ToC": "المحتوى"
+    }
+}
