@@ -43,7 +43,7 @@ async function readDirAndSetRoutes({ parent = '/', dir = './versions/latest/on-m
       const staticPath = getStaticPath({ version });
       const targetDir = join(projectBuildDir, staticPath);
       cpSync(resolved, targetDir, { recursive: true });
-      app.use(staticPath, express.static(resolved));
+      app.use(staticPath, express.static(targetDir));
       return [];
     }
     const dirs = readdirSync(dir);
@@ -103,7 +103,7 @@ export const projectStaticDir = join(projectDir, GLOBAL_STATIC_PATH);
 if (existsSync(projectStaticDir) && lstatSync(projectStaticDir).isDirectory()) {
   const targetDir = join(projectBuildDir, GLOBAL_STATIC_PATH);
   cpSync(projectStaticDir, targetDir, { recursive: true });
-  app.use(GLOBAL_STATIC_PATH, express.static(projectStaticDir));
+  app.use(GLOBAL_STATIC_PATH, express.static(targetDir));
 }
 
 const [pages] = await Promise.all(
