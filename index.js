@@ -1,7 +1,7 @@
 // @ts-check
 import { metadata } from '#helpers/index.js';
 import express from 'express';
-import { cpSync, existsSync, lstatSync, readdirSync, rmSync, statSync } from 'fs';
+import { cpSync, existsSync, lstatSync, mkdirSync, readdirSync, rmSync, statSync } from 'fs';
 import { basename, extname, join, relative, resolve, sep } from 'path';
 import config from './config.js';
 import detectLanguage from './middlewares/detect-language.js';
@@ -94,6 +94,9 @@ if (existsSync('./versions')) {
     .filter((dir) => lstatSync(`./versions/${dir}`).isDirectory())
     .sort()
     .reverse();
+  versions.forEach(version => {
+    mkdirSync(getStaticPath({ version }), { recursive: true })
+  });
 }
 
 const [pages] = await Promise.all(
