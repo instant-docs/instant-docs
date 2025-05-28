@@ -40,7 +40,7 @@ export default function generatePage({ dir = '', content = '', meta = defaultMet
   html = putVariables({ text: html, object: meta, prefix: 'meta_' });
   if(meta.generateTOC){
     const toc = generateTableOfContents(content, lang);
-    html = html.replaceAll('%table_of_contents%', toc);
+    html = html.replaceAll('%generated_table_of_contents%', toc);
   }
   html = putVariables({ text: html, object: dictionaryMap, placeholderAlreadyWrapped: true, convertToSnakeCase: false });
 
