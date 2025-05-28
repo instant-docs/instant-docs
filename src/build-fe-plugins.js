@@ -10,7 +10,7 @@ import config from '../config.js';
 export function buildFePlugins() {
   try {
     const files = getJSFiles(join(projectDir, 'src/plugins/frontend'));
-    const outdir = join(config.BUILD_DIR, config.PLUGINS_PATH);
+    const outdir = join(projectDir, config.BUILD_DIR, config.PLUGINS_PATH);
     if (!existsSync(outdir)) {
       mkdirSync(outdir, { recursive: true });
     }
