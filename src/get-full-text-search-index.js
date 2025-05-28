@@ -4,11 +4,10 @@ import { Router } from 'express';
 import { writeFileSync } from 'fs';
 import { join } from 'path';
 import config from '../config.js';
-import { offMenuPagesByVersion, onMenuPagesByVersion } from '../index.js';
+import { offMenuPagesByVersion, onMenuPagesByVersion, projectBuildDir } from '../index.js';
 import { emitter } from './events.js';
 import getLinkFor from './get-link-for.js';
 import getStaticPath from './get-static-path.js';
-import projectDir from './get-project-dir.js';
 
 export const searchIndexRouter = Router();
 
@@ -44,7 +43,7 @@ export async function prepareSearchIndexes({ lang, version }) {
   const indexContent = await Promise.all(pagesToSearch.map((page) => getFullTextSearchIndex(page, lang, version)));
   const indexPath = join(getStaticPath({ version }), `/search_index_${lang}.json`);
   searchIndexRouter.get(indexPath, (_req, res) => res.send(indexContent));
-  const indexFile = join(projectDir, config.BUILD_DIR, indexPath);
+  const indexFile = join(projectBuildDir, indexPath);
   writeFileSync(indexFile, JSON.stringify(indexContent), { encoding: config.ENCODING });
   emitter.emit(`search-index-${lang}-${version}`);
 }

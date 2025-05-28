@@ -41,7 +41,7 @@ async function readDirAndSetRoutes({ parent = '/', dir = './versions/latest/on-m
     dirType = dirType || /** @type { 'on-menu' | 'off-menu' | 'static'} */ (resolved.split(sep).at(-1));
     if (dirType === 'static') {
       const staticPath = getStaticPath({ version });
-      const targetDir = join(projectDir, config.BUILD_DIR, staticPath);
+      const targetDir = join(projectBuildDir, staticPath);
       cpSync(resolved, targetDir, { recursive: true });
       app.use(staticPath, express.static(resolved));
       return [];
@@ -95,7 +95,7 @@ if (existsSync('./versions')) {
     .sort()
     .reverse();
   versions.forEach(version => {
-    mkdirSync(getStaticPath({ version }), { recursive: true })
+    mkdirSync(join(projectBuildDir, getStaticPath({ version })), { recursive: true })
   });
 }
 
