@@ -1,7 +1,7 @@
 import { metadata } from '#helpers/index.js';
 
 export default metadata({
-  title: 'Placeholder Kept Example',
-  menuOrder: 1,
+  title: 'MyFramework 1.0 - Replaced Placeholders',
+  menuOrder: 20,
   replacePlaceholders: false,
 });

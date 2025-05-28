@@ -1,0 +1,31 @@
+{
+    "en": {
+        "how_to_install": "Getting Started",
+        "installation_steps": "Installation",
+        "post_install": "Configuration",
+        "avoid_uninstalling": "Troubleshooting",
+        "quick_start": "Quick Start",
+        "search": "Search",
+        "table_of_contents": "Table of Contents"
+
+    },
+    "tr": {
+        "how_to_install": "Başlarken",
+        "installation_steps": "Kurulum",
+        "post_install": "Yapılandırma",
+        "avoid_uninstalling": "Sorun Giderme",
+        "quick_start": "Hızlı Başlangıç",
+        "search": "Ara",
+        "table_of_contents": "İçindekiler"
+
+    },
+    "ae": {
+        "how_to_install": "البدء",
+        "installation_steps": "التثبيت",
+        "post_install": "التهيئة",
+        "avoid_uninstalling": "استكشاف الأخطاء وإصلاحها",
+        "quick_start": "البدء السريع",
+        "search": "بحث",
+        "table_of_contents": "جدول المحتويات"
+    }
+}

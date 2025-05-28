@@ -1,5 +1,4 @@
 import { load } from 'cheerio';
-import dictionary from '../dictionary.js';
 import config from '../config.js';
 
 export default function generateTableOfContents(html, lang, level = config.DEFAULT_CONTENT_HEADING_LEVEL, parent = null, parentLevel = null) {
@@ -16,7 +15,7 @@ export default function generateTableOfContents(html, lang, level = config.DEFAU
     toc += '</li>';
   });
   if (toc.length > 0) {
-    toc = `<h2>${dictionary.toc[lang]}</h2><ol>${toc}</ol>`;
+    toc = `<h2>${config.DICTIONARY_VARIABLE}.table_of_contents</h2><ol>${toc}</ol>`;
   }
   return toc;
 }
