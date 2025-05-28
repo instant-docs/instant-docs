@@ -15,16 +15,16 @@ import { toImportPath } from './src/to-import-path.js';
 import { searchIndexRouter } from './src/get-full-text-search-index.js';
 import getStaticPath from './src/get-static-path.js';
 
+const { PORT, PROTOCOL, BUILD_DIR, DEFAULT_LANG, GLOBAL_STATIC_PATH } = config;
+
 export const app = express();
 
 app.use(searchIndexRouter);
 
-export const projectBuildDir = join(projectDir, config.BUILD_DIR);
+export const projectBuildDir = join(projectDir, BUILD_DIR);
 if (existsSync(projectBuildDir)) {
   rmSync(projectBuildDir, { recursive: true });
 }
-
-const { PORT, PROTOCOL } = config;
 
 app.use(detectLanguage);
 
@@ -74,7 +74,7 @@ async function readDirAndSetRoutes({ parent = '/', dir = './versions/latest/on-m
           app.get(url, (req, res) => {
             const lang = req.params.lang || res.locals.detectedLanguage;
             const { content, dictionaryMap } = getHtmlContent(dir, lang);
-            const meta = page.metas[lang] ?? page.metas[config.DEFAULT_LANG];
+            const meta = page.metas[lang] ?? page.metas[DEFAULT_LANG];
             const generatedPage = generatePage({ dir, content, meta, lang, version, dictionaryMap });
             res.contentType('html').send(generatedPage);
           });
@@ -99,6 +99,13 @@ if (existsSync('./versions')) {
   });
 }
 
+export const projectStaticDir = join(projectDir, GLOBAL_STATIC_PATH);
+if (existsSync(projectStaticDir) && lstatSync(projectStaticDir).isDirectory()) {
+  const targetDir = join(projectBuildDir, GLOBAL_STATIC_PATH);
+  cpSync(projectStaticDir, targetDir, { recursive: true });
+  app.use(GLOBAL_STATIC_PATH, express.static(projectStaticDir));
+}
+
 const [pages] = await Promise.all(
   versions
     .map((v) => [
@@ -120,14 +127,14 @@ async function getMetadatas(dir) {
   const metaFiles = files.filter((fileName) => fileName.startsWith('meta') && fileName.endsWith('.js'));
   if (metaFiles.length === 0) {
     return {
-      [config.DEFAULT_LANG]: metadata(),
+      [DEFAULT_LANG]: metadata(),
     };
   }
   const result = {};
   for (const file of metaFiles) {
     const fileName = basename(file, extname(file));
     const splittedName = fileName.split('_');
-    const fileLang = splittedName.length > 1 ? splittedName.at(-1) : config.DEFAULT_LANG;
+    const fileLang = splittedName.length > 1 ? splittedName.at(-1) : DEFAULT_LANG;
     const moduleDir = join(dir, file);
     const scriptDir = __dir(import.meta);
     const metaModule = await import(toImportPath(relative(scriptDir, moduleDir)));
