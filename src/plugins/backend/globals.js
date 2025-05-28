@@ -12,13 +12,14 @@ export default function setGlobals({ html, meta, lang, dir }) {
       .replaceAll('//', '/')
       .replace(/\/$/, '');
   }
+  const version = $('html').attr('x-version');
 
   const hardCodedGetLinkFor = getLinkFor.toString().replaceAll('config.LINK_FORMAT', `'${config.LINK_FORMAT}'`);
 
   $('head').append(
     `
     <script>
-        window.globals = ${JSON.stringify({ meta, lang, dir })};
+        window.globals = ${JSON.stringify({ meta, lang, dir, version })};
         window.getLinkFor = ${hardCodedGetLinkFor}
     </script>`.trim(),
   );
