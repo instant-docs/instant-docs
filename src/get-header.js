@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync } from 'fs';
 import { dirname, join } from 'path';
 import config from '../config.js';
-import { markdownToHtml } from '../helpers/index.js';
+import { markdownToHtml } from '#helpers/index.js';
 
 export default function getHeader(dir, lang) {
   const headerFile = getHeaderFileInDir(dir, lang);
@@ -17,7 +17,7 @@ export default function getHeader(dir, lang) {
 }
 
 function getHeaderFileInDir(dir, lang) {
-  if (dir === '.' || !dir.includes('pages')) {
+  if (dir === '.' || !dir) {
     return undefined;
   }
   const files = readdirSync(dir);

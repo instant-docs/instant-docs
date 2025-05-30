@@ -1,11 +1,15 @@
 import axios from 'axios';
 import { load } from 'cheerio';
+import { Router } from 'express';
 import { writeFileSync } from 'fs';
 import { join } from 'path';
 import config from '../config.js';
-import { offMenuPages, onMenuPages } from '../index.js';
-import projectDir from './get-project-dir.js';
+import { offMenuPagesByVersion, onMenuPagesByVersion, projectBuildDir } from '../index.js';
 import { emitter } from './events.js';
+import getLinkFor from './get-link-for.js';
+import getStaticPath from './get-static-path.js';
+
+export const searchIndexRouter = Router();
 
 /**
  *
@@ -15,13 +19,8 @@ import { emitter } from './events.js';
  * }} page
  * @param {string} lang
  */
-async function getFullTextSearchIndex(page, lang) {
-  const { data: html } = await axios.get(page.url, {
-    baseURL: `${config.PROTOCOL}://localhost:${config.PORT}`,
-    headers: {
-      'accept-language': lang,
-    },
-  });
+async function getFullTextSearchIndex(page, lang, version) {
+  const { data: html } = await axios.get(getLinkFor({ page, lang, version }), { baseURL: `${config.PROTOCOL}://localhost:${config.PORT}` });
   const $ = load(html);
   $('nav, header, footer, aside, script, style, #table-of-contents, form').remove();
   const title = $('title').text().trim();
@@ -31,18 +30,20 @@ async function getFullTextSearchIndex(page, lang) {
     .replace(/\s/g, ' ')
     .replace(/\s{2,}/g, ' ')
     .trim();
-  return { title, cleanText, url: `/${lang}${page.url}` };
+  return { title, cleanText, url: `${page.url}/${lang}` };
 }
 
 function isTrueStr(str) {
   return ['1', 'true'].includes(str);
 }
 
-export async function prepareSearchIndexes(lang) {
+export async function prepareSearchIndexes({ lang, version }) {
   const includeOffmenu = isTrueStr(config.ALLOW_SEARCH_IN_OFF_MENU);
-  const pagesToSearch = [...onMenuPages, ...(includeOffmenu ? offMenuPages : [])];
-  const indexContent = await Promise.all(pagesToSearch.map((page) => getFullTextSearchIndex(page, lang)));
-  const indexFile = join(projectDir, `static/search_index_${lang}.json`);
+  const pagesToSearch = [...onMenuPagesByVersion[version], ...(includeOffmenu ? offMenuPagesByVersion[version] : [])];
+  const indexContent = await Promise.all(pagesToSearch.map((page) => getFullTextSearchIndex(page, lang, version)));
+  const indexPath = join(getStaticPath({ version }), `/search_index_${lang}.json`);
+  searchIndexRouter.get(indexPath, (_req, res) => res.send(indexContent));
+  const indexFile = join(projectBuildDir, indexPath);
   writeFileSync(indexFile, JSON.stringify(indexContent), { encoding: config.ENCODING });
-  emitter.emit(`search-index-${lang}`);
+  emitter.emit(`search-index-${lang}-${version}`);
 }

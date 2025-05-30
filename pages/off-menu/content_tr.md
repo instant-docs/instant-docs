@@ -1,3 +1,0 @@
-# merhaba dünya
-
-türkçeyi seviyorum

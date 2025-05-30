@@ -8,6 +8,7 @@ import { emitter } from './events.js';
 let plugins = null;
 
 async function initPlugins() {
+  if(plugins !== null) return;
   try {
     const srcDir = join(projectDir, 'src');
     const bePluginsDir = join(srcDir, 'plugins', 'backend');

@@ -1,0 +1,14 @@
+{
+    "en": {
+        "placeholders": "Legacy Placeholders",
+        "placeholders_visit_sub_pages": "This section details the placeholder system from MyFramework 1.0."
+    },
+    "tr": {
+        "placeholders": "Eski Yer Tutucular",
+        "placeholders_visit_sub_pages": "Bu bölüm, MyFramework 1.0'daki yer tutucu sistemini detaylandırmaktadır."
+    },
+    "ar": {
+        "placeholders": "العناصر النائبة القديمة",
+        "placeholders_visit_sub_pages": "يشرح هذا القسم نظام العناصر النائبة من MyFramework 1.0."
+    }
+}

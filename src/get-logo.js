@@ -13,7 +13,7 @@ export default function getLogo(dir, lang) {
 }
 
 function getLogoFileInDir(dir, lang) {
-  if (dir === '.' || !dir.includes('pages')) {
+  if (!dir || dir === '.') {
     return undefined;
   }
   const files = readdirSync(dir);
