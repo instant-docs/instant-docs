@@ -30,7 +30,8 @@ async function getFullTextSearchIndex(page, lang, version) {
     .replace(/\s/g, ' ')
     .replace(/\s{2,}/g, ' ')
     .trim();
-  return { title, cleanText, url: `${page.url}/${lang}` };
+  return { title, cleanText, url: getLinkFor({ page, lang, version }) };
+
 }
 
 function isTrueStr(str) {
