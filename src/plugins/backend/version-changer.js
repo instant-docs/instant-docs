@@ -8,7 +8,7 @@ export default function versionChanger({ html, lang }) {
             if (options) {
                 options.addEventListener('change', (e) => {
                     window.location.assign(
-                        window.getLinkFor('', lang, e.target.value)
+                        window.getLink({ slug: '/', version: e.target.value, lang }),
                     );
                 });
             }
