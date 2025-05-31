@@ -25,8 +25,7 @@ const search = debounceByKey('searchInput')((e) => {
   document.getElementById('search-result-container').classList.remove('hide');
   if (!searchIndex && !fetching) {
     fetching = true;
-    const { lang, version } = window;
-    fetch(`/${version}/search_index_${lang}.json`, { cache: 'force-cache' })
+    fetch(window.getLink({ slug: '/search_index.json' }), { cache: 'force-cache' })
       .then((response) => response.blob())
       .then((blob) => blob.text())
       .then((text) => {

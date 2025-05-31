@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { load } from 'cheerio';
 import { Router } from 'express';
-import { writeFileSync } from 'fs';
-import { join } from 'path';
+import { mkdirSync, writeFileSync } from 'fs';
+import { dirname, join } from 'path';
 import config from '../config.js';
 import { offMenuPagesByVersion, onMenuPagesByVersion, projectBuildDir } from '../index.js';
 import { emitter } from './events.js';
@@ -30,7 +30,8 @@ async function getFullTextSearchIndex(page, lang, version) {
     .replace(/\s/g, ' ')
     .replace(/\s{2,}/g, ' ')
     .trim();
-  return { title, cleanText, url: `${page.url}/${lang}` };
+  return { title, cleanText, url: getLinkFor({ page, lang, version }) };
+
 }
 
 function isTrueStr(str) {
@@ -41,7 +42,8 @@ export async function prepareSearchIndexes({ lang, version }) {
   const includeOffmenu = isTrueStr(config.ALLOW_SEARCH_IN_OFF_MENU);
   const pagesToSearch = [...onMenuPagesByVersion[version], ...(includeOffmenu ? offMenuPagesByVersion[version] : [])];
   const indexContent = await Promise.all(pagesToSearch.map((page) => getFullTextSearchIndex(page, lang, version)));
-  const indexPath = join(getStaticPath({ version }), `/search_index_${lang}.json`);
+  const indexPath = getLinkFor({ page: { url: '/search_index.json', metas: [] }, lang, version });
+  mkdirSync(join(projectBuildDir, dirname(indexPath)), { recursive: true });
   searchIndexRouter.get(indexPath, (_req, res) => res.send(indexContent));
   const indexFile = join(projectBuildDir, indexPath);
   writeFileSync(indexFile, JSON.stringify(indexContent), { encoding: config.ENCODING });
