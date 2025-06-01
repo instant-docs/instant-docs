@@ -15,7 +15,7 @@ export default function generateTableOfContents(html, lang, level = config.DEFAU
     toc += '</li>';
   });
   if (toc.length > 0) {
-    toc = `<h2>${config.DICTIONARY_VARIABLE}.table_of_contents</h2><ol>${toc}</ol>`;
+    toc = `<section id="table-of-contents"><h2>${config.DICTIONARY_VARIABLE}.table_of_contents</h2><ol>${toc}</ol></section>`;
   }
   return toc;
 }
