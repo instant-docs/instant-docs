@@ -25,7 +25,6 @@ export function copyAndMinify(srcPath, destPath, recursive = true) {
       }
     }
   } catch (error) {
-    console.error(`Error copying ${srcPath}:`, error.message);
     throw error;
   }
 }
