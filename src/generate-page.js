@@ -14,6 +14,7 @@ import getLinkFor from './get-link-for.js';
 import getVersionOptions from './get-version-options.js';
 import getStaticPath from './get-static-path.js';
 import { defaultMetaData } from '#helpers/index.js';
+import { minify } from 'htmlfy';
 
 export default function generatePage({ dir = '', content = '', meta = defaultMetaData, lang = config.DEFAULT_LANG, version = 'latest', dictionaryMap = {} } = {}) {
   const searchForm = getSearchForm(version);
@@ -48,5 +49,6 @@ export default function generatePage({ dir = '', content = '', meta = defaultMet
     html = html.replaceAll('%content%', content);
   }
 
-  return applyBePlugins({ html, dir, lang, meta });
+  html = applyBePlugins({ html, dir, lang, meta });
+  return minify(html, false);
 }

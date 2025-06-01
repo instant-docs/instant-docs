@@ -1,7 +1,7 @@
 // @ts-check
 import { metadata } from '#helpers/index.js';
 import express from 'express';
-import { cpSync, existsSync, lstatSync, mkdirSync, readdirSync, rmSync, statSync } from 'fs';
+import { existsSync, lstatSync, mkdirSync, readdirSync, rmSync, statSync } from 'fs';
 import { basename, extname, join, relative, resolve, sep } from 'path';
 import config from './config.js';
 import detectLanguage from './middlewares/detect-language.js';
@@ -14,6 +14,7 @@ import projectDir from './src/get-project-dir.js';
 import { toImportPath } from './src/to-import-path.js';
 import { searchIndexRouter } from './src/get-full-text-search-index.js';
 import getStaticPath from './src/get-static-path.js';
+import { copyAndMinify } from './src/copy-and-minify.js';
 
 const { PORT, PROTOCOL, BUILD_DIR, DEFAULT_LANG, GLOBAL_STATIC_PATH } = config;
 
@@ -42,7 +43,7 @@ async function readDirAndSetRoutes({ parent = '/', dir = './versions/latest/on-m
     if (dirType === 'static') {
       const staticPath = getStaticPath({ version });
       const targetDir = join(projectBuildDir, staticPath);
-      cpSync(resolved, targetDir, { recursive: true });
+      copyAndMinify(resolved, targetDir);
       app.use(staticPath, express.static(targetDir));
       return [];
     }
@@ -102,7 +103,7 @@ if (existsSync('./versions')) {
 export const projectStaticDir = join(projectDir, GLOBAL_STATIC_PATH);
 if (existsSync(projectStaticDir) && lstatSync(projectStaticDir).isDirectory()) {
   const targetDir = join(projectBuildDir, GLOBAL_STATIC_PATH);
-  cpSync(projectStaticDir, targetDir, { recursive: true });
+  copyAndMinify(projectStaticDir, targetDir);
   app.use(GLOBAL_STATIC_PATH, express.static(targetDir));
 }
 
