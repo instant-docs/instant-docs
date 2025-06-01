@@ -35,16 +35,16 @@ export default function generateNavigation(lang, version) {
 
         // Find if there are subpages and recursively build the submenu
         if (hasSubpages) {
-          li += '<li class="pure-menu-item" role="group">';
-          li += `<div class="flex-menu-item" role="group"><a class="pure-menu-link grow" href="${getLinkFor({ page, lang, version })}">${title}</a>`;
+          li += '<li role="group">';
+          li += `<div class="flex-menu-item" role="group"><a href="${getLinkFor({ page, lang, version })}">${title}</a>`;
           li += '<label><input type="checkbox" class="expand-button"/><div class="chevron"></div></label>';
           li += '</div>';
           li += '<ul>';
           li += buildMenu(subPages, page.url); // Add sub-menu inside the <li> if there are subpages
           li += '</ul>';
         } else {
-          li += `<li class="pure-menu-item">`;
-          li += `<a class="pure-menu-link" href="${getLinkFor({ page, lang, version })}">${title}</a>`;
+          li += `<li>`;
+          li += `<a href="${getLinkFor({ page, lang, version })}">${title}</a>`;
         }
 
         li += '</li>';
@@ -57,5 +57,5 @@ export default function generateNavigation(lang, version) {
 
   // Get only top-level pages (without slashes beyond the root)
   const topLevelPages = onMenuPagesByVersion[version].filter((page) => page.url.lastIndexOf('/') <= 0);
-  return buildMenu(topLevelPages, `/`);
+  return `<nav><ul>${buildMenu(topLevelPages, `/`)}</ul></nav>`;
 }
