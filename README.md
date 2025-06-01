@@ -11,6 +11,7 @@ Prepare your content only with markdown files and let the tool do all the work f
 - **📝 Automatic Table of Contents Generation**: Automatically generate a table of contents based on headings in your markdown files.
 - **🔍 Search Functionality**: Built-in search support.
 - **🌍 Multi-language Support**: Supports multiple languages natively.
+- **📦 Minifiers Included**: Automatically minifies assets for optimized performance.
 - **🚀 Deployment Options**: Run our server directly or build static pages to deploy on GitHub Pages, Netlify, Vercel, etc.
 - **🎨 Theming**: Customize the look and feel of your docs with themes.
 - **🔌 Plugins**: Extend functionality with plugins for additional features.
