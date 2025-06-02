@@ -15,6 +15,9 @@ import { toImportPath } from './src/to-import-path.js';
 import { searchIndexRouter } from './src/get-full-text-search-index.js';
 import getStaticPath from './src/get-static-path.js';
 import { copyAndMinify } from './src/copy-and-minify.js';
+import putVariables from './src/put-variables-to-text.js';
+import getDictionary from './src/get-dictionary.js';
+import getVarMap from './src/get-var-map.js';
 
 const { PORT, PROTOCOL, BUILD_DIR, DEFAULT_LANG, GLOBAL_STATIC_PATH } = config;
 
@@ -65,7 +68,7 @@ async function readDirAndSetRoutes({ parent = '/', dir = './versions/latest/on-m
         const page = { url: urlSegment, metas: {} };
         const url = getLinkFor({ page, lang: undefined, version });
         if (element.startsWith('content') && !pages.some((page) => page.url === urlSegment)) {
-          page.metas = await getMetadatas(dir);
+          page.metas = await getMetadatas({dir, version});
           pages.push(page);
           if (dirType === 'on-menu') {
             onMenuPagesByVersion[version].push(page);
@@ -120,10 +123,10 @@ const [pages] = await Promise.all(
 console.log({ pages });
 
 /**
- * @param {string} dir
+ * @param {{ dir: string, version: string }} options
  * @returns {Promise<Record<string, object>>}
  */
-async function getMetadatas(dir) {
+async function getMetadatas({ dir, version }) {
   const files = readdirSync(dir);
   const metaFiles = files.filter((fileName) => fileName.startsWith('meta') && fileName.endsWith('.js'));
   if (metaFiles.length === 0) {
@@ -139,7 +142,12 @@ async function getMetadatas(dir) {
     const moduleDir = join(dir, file);
     const scriptDir = __dir(import.meta);
     const metaModule = await import(toImportPath(relative(scriptDir, moduleDir)));
-    result[fileLang] = metaModule.default;
+    const pureMeta = metaModule.default;
+    // @ts-ignore
+    const dictionary = getDictionary({ dir, lang: fileLang });
+    const dictionaryMap = Object.fromEntries(Object.keys(dictionary).map(key => [`${config.DICTIONARY_VARIABLE}.${key}`, dictionary[key]]));
+    const varMap = getVarMap({ dir, lang: fileLang, version, dictionaryMap });
+    result[fileLang] = putVariables({ target: pureMeta, source: varMap, placeholderAlreadyWrapped: true, convertToSnakeCase: false });
   }
   return result;
 }

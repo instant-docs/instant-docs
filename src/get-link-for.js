@@ -23,13 +23,13 @@ export default function getLinkFor({ page, lang, version }) {
 
   const slug = page.url.startsWith('/') ? page.url.slice(1) : page.url;
   const url = putVariables({
-    text: format
+    target: format
       .replaceAll('%lang%', lang || ':lang')
       .replaceAll('%path%', page.url)
       .replaceAll('%slug%', slug)
       .replaceAll('%version%', version)
       .replace(/\/$/,''),
-    object: page.metas[lang] || page.metas[config.DEFAULT_LANG],
+    source: page.metas[lang] || page.metas[config.DEFAULT_LANG],
     prefix: 'meta_',
   });
   return url;
