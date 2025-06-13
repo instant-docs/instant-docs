@@ -18,6 +18,7 @@ import { copyAndMinify } from './src/copy-and-minify.js';
 import putVariables from './src/put-variables-to-text.js';
 import getDictionary from './src/get-dictionary.js';
 import getVarMap from './src/get-var-map.js';
+import { emitter } from './src/events.js';
 
 const { PORT, PROTOCOL, BUILD_DIR, DEFAULT_LANG, GLOBAL_STATIC_PATH } = config;
 
@@ -151,5 +152,10 @@ async function getMetadatas({ dir, version }) {
 buildFePlugins();
 
 export const server = app.listen(PORT, () => {
-  console.log(`Running on ${PROTOCOL}://localhost:${PORT}`);
+  const baseUrl = `${PROTOCOL}://localhost:${PORT}`;
+  console.log(`Running on ${baseUrl}`);
+  emitter.on('all-ready', () => {
+    const homeLink = getLinkFor({ page: { url: '/', metas: {} }, lang: config.DEFAULT_LANG, version: 'latest' });
+    console.log(`Home link: ${baseUrl}${homeLink}`);
+  });
 });
