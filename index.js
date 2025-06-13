@@ -18,6 +18,7 @@ import { copyAndMinify } from './src/copy-and-minify.js';
 import putVariables from './src/put-variables-to-text.js';
 import getDictionary from './src/get-dictionary.js';
 import getVarMap from './src/get-var-map.js';
+import { emitter } from './src/events.js';
 
 const { PORT, PROTOCOL, BUILD_DIR, DEFAULT_LANG, GLOBAL_STATIC_PATH } = config;
 
@@ -129,25 +130,21 @@ console.log({ pages });
 async function getMetadatas({ dir, version }) {
   const files = readdirSync(dir);
   const metaFiles = files.filter((fileName) => fileName.startsWith('meta') && fileName.endsWith('.js'));
-  if (metaFiles.length === 0) {
-    return {
-      [DEFAULT_LANG]: metadata(),
-    };
-  }
   const result = {};
-  for (const file of metaFiles) {
-    const fileName = basename(file, extname(file));
-    const splittedName = fileName.split('_');
-    const fileLang = splittedName.length > 1 ? splittedName.at(-1) : DEFAULT_LANG;
-    const moduleDir = join(dir, file);
+  for(const lang of config.CONTENT_LANGUAGES.split(',')) {
+    const metaFile = metaFiles.find(file => file === `meta_${lang}.js`) || metaFiles.find(file => file === `meta.js`);
+    if(!metaFile) {
+      result[lang] = metadata();
+      continue;
+    }
+    const moduleDir = join(dir, metaFile);
     const scriptDir = __dir(import.meta);
     const metaModule = await import(toImportPath(relative(scriptDir, moduleDir)));
     const pureMeta = metaModule.default;
-    // @ts-ignore
-    const dictionary = getDictionary({ dir, lang: fileLang });
+    const dictionary = getDictionary({ dir, lang });
     const dictionaryMap = Object.fromEntries(Object.keys(dictionary).map(key => [`${config.DICTIONARY_VARIABLE}.${key}`, dictionary[key]]));
-    const varMap = getVarMap({ dir, lang: fileLang, version, dictionaryMap });
-    result[fileLang] = putVariables({ target: pureMeta, source: varMap, placeholderAlreadyWrapped: true, convertToSnakeCase: false });
+    const varMap = getVarMap({ dir, lang, version, dictionaryMap });
+    result[lang] = putVariables({ target: pureMeta, source: varMap, placeholderAlreadyWrapped: true, convertToSnakeCase: false });
   }
   return result;
 }
@@ -155,5 +152,10 @@ async function getMetadatas({ dir, version }) {
 buildFePlugins();
 
 export const server = app.listen(PORT, () => {
-  console.log(`Running on ${PROTOCOL}://localhost:${PORT}`);
+  const baseUrl = `${PROTOCOL}://localhost:${PORT}`;
+  console.log(`Running on ${baseUrl}`);
+  emitter.on('all-ready', () => {
+    const homeLink = getLinkFor({ page: { url: '/', metas: {} }, lang: config.DEFAULT_LANG, version: 'latest' });
+    console.log(`Home link: ${baseUrl}${homeLink}`);
+  });
 });
