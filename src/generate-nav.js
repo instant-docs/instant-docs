@@ -36,8 +36,8 @@ export default function generateNavigation(lang, version) {
         // Find if there are subpages and recursively build the submenu
         if (hasSubpages) {
           li += '<li role="group">';
-          li += `<div class="flex-menu-item" role="group"><a href="${getLinkFor({ page, lang, version })}">${title}</a>`;
-          li += '<label role="button" tabindex="0"><input type="checkbox" class="expand-button"/><div class="chevron"></div></label>';
+          li += `<div class="flex-menu-item"><a href="${getLinkFor({ page, lang, version })}">${title}</a>`;
+          li += `<button aria-label="${config.DICTIONARY_VARIABLE}.expand" class="expand-button"><span class="chevron" aria-hidden="true"></span></button>`;
           li += '</div>';
           li += '<ul>';
           li += buildMenu(subPages, page.url); // Add sub-menu inside the <li> if there are subpages
