@@ -30,8 +30,8 @@ importers:
         specifier: ^4.21.0
         version: 4.21.0
       htmlfy:
-        specifier: ^0.7.5
-        version: 0.7.5
+        specifier: ^0.8.0
+        version: 0.8.0
       pkg-dir:
         specifier: ^8.0.0
         version: 8.0.0
@@ -701,8 +701,8 @@ packages:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
 
-  htmlfy@0.7.5:
-    resolution: {integrity: sha512-woog97QSD0MJVXDs4nNz3S/XIb+wa/UgunpaI29tbXaTB9SlNvQalw1XolE4m3BPp3xkJMx96I27Lb/clesPLA==}
+  htmlfy@0.8.0:
+    resolution: {integrity: sha512-HIDZGpwNgW5PBy8RUbaKg5S4errIigRR8K41GA6+Empi5t3bQRty6RLdUsjdh9g4U+4SbvYfmsqL2IXh7rIGdA==}
 
   htmlparser2@9.1.0:
     resolution: {integrity: sha512-5zfg6mHUoaer/97TxnGpxmbR7zJtPwIYFMZ/H5ucTlPZhKvtum05yiPK3Mgai3a0DyVxv7qYqoweaEd2nrYQzQ==}
@@ -1678,7 +1678,7 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
-  htmlfy@0.7.5: {}
+  htmlfy@0.8.0: {}
 
   htmlparser2@9.1.0:
     dependencies:

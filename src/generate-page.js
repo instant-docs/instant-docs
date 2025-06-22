@@ -27,5 +27,5 @@ export default function generatePage({ dir = '', content = '', meta = defaultMet
   }
 
   html = applyBePlugins({ html, dir, lang, meta });
-  return minify(html, false);
+  return minify(html, { ignore: ['pre'], checked_html: false });
 }

@@ -63,7 +63,7 @@ function copyAndMinifyFile(srcPath, destPath) {
       case '.svg':
       case '.htmx':
       case '.xhtml':
-        processedContent = minifyHtml(content);
+        processedContent = minifyHtml(content, { ignore: ['pre'], checked_html: false });
         break;
         
       case '.json':

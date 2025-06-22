@@ -1,6 +1,6 @@
 {
   "name": "instant-docs",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Create docs faster than light",
   "main": "index.js",
   "type": "module",
@@ -47,7 +47,7 @@
     "dotenv": "^16.4.5",
     "esbuild": "^0.24.0",
     "express": "^4.21.0",
-    "htmlfy": "^0.7.5",
+    "htmlfy": "^0.8.0",
     "pkg-dir": "^8.0.0",
     "showdown": "^2.1.0"
   },

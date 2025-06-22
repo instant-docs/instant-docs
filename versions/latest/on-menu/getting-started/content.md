@@ -7,12 +7,13 @@ Welcome to MyFramework! This guide will help you get started with your new proje
 To install MyFramework, follow these steps:
 
 1.  **Clone the repository:**
-    ```bash
+    ```
     git clone https://github.com/myframework/myframework-starter.git
+
     cd myframework-starter
     ```
 2.  **Install dependencies:**
-    ```bash
+    ```
     npm install
     ```
 
