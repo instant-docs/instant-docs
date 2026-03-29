@@ -1,6 +1,5 @@
 import { readdirSync, readFileSync } from 'fs';
-import { dirname, relative, resolve } from 'path';
-import { pathToFileURL } from 'url';
+import { dirname, resolve } from 'path';
 
 /**
  * @param {{ dir: string, lang: string }} options

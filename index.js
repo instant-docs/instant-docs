@@ -78,9 +78,9 @@ async function readDirAndSetRoutes({ parent = '/', dir = './versions/latest/on-m
           }
           app.get(url, (req, res) => {
             const lang = req.params.lang || res.locals.detectedLanguage;
-            const { content, dictionaryMap } = getHtmlContent(dir, lang);
+            const { content, dictionaryMap, dictionary } = getHtmlContent(dir, lang);
             const meta = page.metas[lang] ?? page.metas[DEFAULT_LANG];
-            const generatedPage = generatePage({ dir, content, meta, lang, version, dictionaryMap });
+            const generatedPage = generatePage({ dir, content, meta, lang, version, dictionaryMap, dictionary });
             res.contentType('html').send(generatedPage);
           });
         }

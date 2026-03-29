@@ -24,6 +24,7 @@ export default function getHtmlContent(dir, lang) {
   return {
     content,
     lang,
-    dictionaryMap
+    dictionaryMap,
+    dictionary
   };
 }

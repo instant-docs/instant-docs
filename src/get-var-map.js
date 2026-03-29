@@ -9,7 +9,7 @@ import getSearchForm from "./get-search-form.js";
 import getStaticPath from "./get-static-path.js";
 import getVersionOptions from "./get-version-options.js";
 
-export default function getVarMap({ dir = '', lang = '', version = '', dictionaryMap = {} } = {}) {
+export default function getVarMap({ dir = '', lang = '', version = '', dictionaryMap = {}, dictionary = {} } = {}) {
     return {
         '%timestamp%': Date.now(),
         '%logo%': getLogo(dir, lang),
@@ -23,6 +23,7 @@ export default function getVarMap({ dir = '', lang = '', version = '', dictionar
         '%nav%': generateNavigation(lang, version),
         '%version_options%': getVersionOptions(version),
         '%static_path%': getStaticPath({ version }),
+        '%dictionary%': JSON.stringify(dictionary),
         ...dictionaryMap
     };
 }
