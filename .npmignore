@@ -9,3 +9,6 @@ src/plugins/
 eslint.config.js
 *lock.yaml
 README.md
+*.tgz
+.env
+versions
