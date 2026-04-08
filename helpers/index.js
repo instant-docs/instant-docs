@@ -1,7 +1,10 @@
 import config from '../config.js';
-import showdown from 'showdown';
-const converter = new showdown.Converter();
-converter.setOption('ghCompatibleHeaderId', true);
+import { marked } from 'marked';
+
+marked.options({
+  gfm: true,
+  breaks: true,
+});
 
 export function metadata({
   title = '',
@@ -18,7 +21,7 @@ export function metadata({
 }
 
 export function markdownToHtml(text) {
-  return converter.makeHtml(text);
+  return marked.parse(text);
 }
 
 export const defaultMetaData = metadata({});

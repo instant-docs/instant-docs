@@ -1,7 +1,8 @@
 {
     "en": {
         "placeholders": "Legacy Placeholders",
-        "placeholders_visit_sub_pages": "This section details the placeholder system from MyFramework 1.0."
+        "placeholders_visit_sub_pages": "This section details the placeholder system from MyFramework 1.0.",
+        "installation_step": "WRONG TRANSLATE"
     },
     "tr": {
         "placeholders": "Eski Yer Tutucular",

@@ -15,12 +15,14 @@ export default function generatePage({ dir = '', content = '', meta = defaultMet
     html = html.replaceAll('%content%', content);
   }
 
-  const varMap = getVarMap({ dir, lang, version, dictionaryMap, dictionary });
+  const varMap = getVarMap({ dir, lang, version, dictionaryMap: {}, dictionary });
   html = putVariables({ target: html, source: varMap, placeholderAlreadyWrapped: true });
   html = putVariables({ target: html, source: meta, prefix: 'meta_' });
   const toc = meta.generateTOC ? generateTableOfContents(content, lang) : '';
   html = html.replaceAll('%generated_table_of_contents%', toc);
-  html = putVariables({ target: html, source: dictionaryMap, placeholderAlreadyWrapped: true, convertToSnakeCase: false });
+  for (const key in dictionaryMap) {
+    html = html.replace(new RegExp(`${key}\\b`, 'g'), dictionaryMap[key]);
+  }
 
   if (!meta.replacePlaceholders) {
     html = html.replaceAll('%content%', content);
