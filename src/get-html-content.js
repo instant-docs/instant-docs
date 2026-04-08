@@ -13,18 +13,15 @@ export default function getHtmlContent(dir, lang) {
   }
   let content = readFileSync(join(dir, contentFile), config.ENCODING);
   const dictionary = getDictionary({ dir, lang });
-  const dictionaryMap = Object.fromEntries(Object.keys(dictionary).map(key => [`${config.DICTIONARY_VARIABLE}.${key}`, dictionary[key]]));
-  for(const key in dictionaryMap){
-    content = content.replace(new RegExp(`${key}\\b`, 'g'), dictionaryMap[key]);
-  }
+  const dictionaryMap = Object.fromEntries(Object.keys(dictionary).map((key) => [`${config.DICTIONARY_VARIABLE}.${key}`, dictionary[key]]));
 
-  if(contentFile.endsWith('.md') ){
+  if (contentFile.endsWith('.md')) {
     content = markdownToHtml(content);
   }
   return {
     content,
     lang,
     dictionaryMap,
-    dictionary
+    dictionary,
   };
 }
