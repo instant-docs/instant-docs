@@ -2,6 +2,15 @@ import config from '../config.js';
 import { Marked } from 'marked';
 import { markedHighlight } from 'marked-highlight';
 import hljs from 'highlight.js';
+import bash from 'highlight.js/lib/languages/bash';
+import POPULAR_COMMANDS from './popular-commands.js';
+
+const patchedBash = bash(hljs);
+if (Array.isArray(patchedBash.keywords.built_in)) {
+  patchedBash.keywords.built_in.push(...POPULAR_COMMANDS);
+}
+
+hljs.registerLanguage('bash', () => patchedBash);
 
 const marked = new Marked(markedHighlight({
   langPrefix: 'hljs language-',

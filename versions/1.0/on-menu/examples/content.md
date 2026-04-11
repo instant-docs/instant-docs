@@ -10,3 +10,10 @@ function MyComponent() {
     return <div>Count: {counter.get()}</div>;
 }
 ```
+
+```bash
+bun create carats
+npx create carats
+pnpm create carats
+yarn create carats
+```
