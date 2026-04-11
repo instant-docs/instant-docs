@@ -8,10 +8,10 @@ export default function detectLanguage(req, res, next) {
     // Split the languages and get the first one
     const languages = acceptLanguage.split(',').map((lang) => lang.split(';')[0]);
     // Set the detected language to the request object
-    res.locals.detectedLanguage = languages[0]; // You can change the logic here as needed
+    res.locals.preferredLanguage = languages[0]; // You can change the logic here as needed
   } else {
     // Default language if none is provided
-    res.locals.detectedLanguage = config.DEFAULT_LANG; // Fallback to English
+    res.locals.preferredLanguage = config.DEFAULT_LANG; // Fallback to English
   }
 
   // Call the next middleware
