@@ -11,5 +11,6 @@ export default {
   STATIC_PATH: '/static/%version%',
   LINK_FORMAT: '/%lang%/%version%/%slug%',
   DICTIONARY_VARIABLE: '%d%',
-  GLOBAL_STATIC_PATH: '/static'
+  GLOBAL_STATIC_PATH: '/static',
+  DISABLE_SEARCH: 'false'
 };

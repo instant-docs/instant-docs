@@ -18,8 +18,8 @@ const completedEvents = [];
 let pluginsReady = false;
 let allReady = false;
 
-function checkIsAllReady() {
-  if (allReady) return;
+export function checkIsAllReady() {
+  if (allReady) return true;
   const pluginsEvents = ['be-plugins-ready', 'fe-plugins-ready'];
   if (!pluginsReady && pluginsEvents.every((e) => completedEvents.includes(e))) {
     pluginsReady = true;
@@ -34,6 +34,10 @@ function checkIsAllReady() {
 }
 
 emitter.on('create-search-index', async () => {
+  if (config.DISABLE_SEARCH === 'true') {
+    emitter.emit('search-index-ready');
+    return;
+  }
   const supportedLanguages = config.CONTENT_LANGUAGES.split(',');
   const langVerCombination = supportedLanguages.map(lang => versions.map(v => [lang, v])).flat();
   await Promise.all(langVerCombination.map(([lang, version]) => prepareSearchIndexes({ lang, version })));
