@@ -21,7 +21,7 @@ export default function generatePage({ dir = '', content = '', meta = defaultMet
   const toc = meta.generateTOC ? generateTableOfContents(content, lang) : '';
   html = html.replaceAll('%generated_table_of_contents%', toc);
   for (const key in dictionaryMap) {
-    html = html.replace(new RegExp(`${key}\\b`, 'g'), dictionaryMap[key]);
+    html = html.replace(new RegExp(`${key}(?!\\w)`, 'g'), dictionaryMap[key]);
   }
 
   if (!meta.replacePlaceholders) {
