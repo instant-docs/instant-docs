@@ -21,8 +21,8 @@ export default function putVariables({ target = '', source = {}, prefix = '', su
       }
       key = convertToSnakeCase ? toSnakeCase(key) : key;
       const placeholderSymbol = placeholderAlreadyWrapped ? '' : '%';
-      const placeholder = `${placeholderSymbol}${prefix}${key}${suffix}${placeholderSymbol}`;
-      result = result.replaceAll(placeholder, value);
+      const placeholder = new RegExp(`${placeholderSymbol}${prefix}${key}${suffix}${placeholderSymbol}(?!\\w)`, 'g');
+      result = result.replace(placeholder, value);
       return result;
     }, target);
   }

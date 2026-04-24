@@ -1,7 +1,7 @@
 import EventEmitter from 'events';
 import config from '../config.js';
 import { prepareSearchIndexes } from './get-full-text-search-index.js';
-import { versions } from '../index.js';
+import { versions } from './get-versions.js';
 
 export const emitter = new EventEmitter();
 const originalEmit = emitter.emit.bind(emitter);

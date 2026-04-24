@@ -2,9 +2,12 @@ import axios from 'axios';
 import { mkdirSync, writeFileSync } from 'fs';
 import { dirname, join } from 'path';
 import config from './config.js';
-import { offMenuPagesByVersion, onMenuPagesByVersion, projectBuildDir, server, versions } from './index.js';
+import { offMenuPagesByVersion, onMenuPagesByVersion, server } from './index.js';
+import { onMenuPagesByVersion, offMenuPagesByVersion } from './src/get-pages.js';
 import { checkIsAllReady, emitter } from './src/events.js';
 import getLinkFor from './src/get-link-for.js';
+import { projectBuildDir } from './src/get-project-dir.js';
+import { versions } from './src/get-versions.js';
 
 async function buildAllPages() {
   const allLanguages = config.CONTENT_LANGUAGES.split(',');

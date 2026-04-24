@@ -3,6 +3,7 @@ node_modules/
 pages/
 static/
 src/plugins/
+tests/
 .node-version
 .nvmrc
 .prettierrc

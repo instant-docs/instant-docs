@@ -1,4 +1,6 @@
 export default [
+  'brew',
+  'git',
   'node',
   'npm',
   'yarn',
@@ -399,4 +401,12 @@ export default [
   'repo-gpt',
   'gitgit',
   'ai-git',
+  'zsh',
+  'bash',
+  'fish',
+  'powershell',
+  'cmd',
+  'ps',
+  'pwsh',
+  'iex',  
 ];

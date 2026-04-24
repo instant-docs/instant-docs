@@ -1,12 +1,11 @@
 // @ts-check
 import esbuild from 'esbuild';
-import { join } from 'path';
-import getJSFiles from './get-js-files.js';
-import projectDir from './get-project-dir.js';
-import { emitter } from './events.js';
 import { existsSync, mkdirSync } from 'fs';
+import { join } from 'path';
 import config from '../config.js';
-import { projectBuildDir } from '../index.js';
+import { emitter } from './events.js';
+import getJSFiles from './get-js-files.js';
+import { projectDir, projectBuildDir } from './get-project-dir.js';
 
 export function buildFePlugins() {
   try {

@@ -4,10 +4,10 @@ import { Router } from 'express';
 import { mkdirSync, writeFileSync } from 'fs';
 import { dirname, join } from 'path';
 import config from '../config.js';
-import { offMenuPagesByVersion, onMenuPagesByVersion, projectBuildDir } from '../index.js';
+import { offMenuPagesByVersion, onMenuPagesByVersion } from './get-pages.js';
 import { emitter } from './events.js';
 import getLinkFor from './get-link-for.js';
-import getStaticPath from './get-static-path.js';
+import { projectBuildDir } from './get-project-dir.js';
 
 export const searchIndexRouter = Router();
 

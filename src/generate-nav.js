@@ -1,5 +1,5 @@
 import config from '../config.js';
-import { onMenuPagesByVersion } from '../index.js';
+import { onMenuPagesByVersion } from './get-pages.js';
 import getLinkFor from './get-link-for.js';
 
 export default function generateNavigation(lang, version) {
