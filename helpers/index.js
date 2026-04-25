@@ -4,6 +4,7 @@ import { markedHighlight } from 'marked-highlight';
 import hljs from 'highlight.js';
 import bash from 'highlight.js/lib/languages/bash';
 import POPULAR_COMMANDS from './popular-commands.js';
+import nhm from '@minify-html/node';
 
 const patchedBash = bash(hljs);
 if (Array.isArray(patchedBash.keywords.built_in)) {
@@ -36,6 +37,17 @@ export function metadata({
 
 export function markdownToHtml(text) {
   return marked.parse(text);
+}
+
+export function minifyHtml(html) {
+  return nhm.minify(Buffer.from(html), {
+    keep_closing_tags: true,
+    keep_html_and_head_opening_tags: true,
+    keep_spaces_between_attributes: true,
+    keep_comments: true,
+    minify_css: true,
+    minify_js: true,
+  }).toString();
 }
 
 export const defaultMetaData = metadata({});

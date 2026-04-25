@@ -2,7 +2,8 @@ import fs from'fs';
 import path from'path';
 import esbuild from'esbuild'; // Sync JS minification
 import { minify as minifyCss } from'csso'; // For CSS minification
-import {  minify as minifyHtml } from'htmlfy'; // For HTML minification
+import { minifyHtml } from '#helpers/index.js';
+
 
 /**
  * Copy files/directories while minifying supported file types (synchronous)
@@ -59,11 +60,9 @@ function copyAndMinifyFile(srcPath, destPath) {
         
       case '.html':
       case '.htm':
-      case '.xml':
-      case '.svg':
       case '.htmx':
       case '.xhtml':
-        processedContent = minifyHtml(content, { ignore: ['pre'], checked_html: false });
+        processedContent = minifyHtml(content);
         break;
         
       case '.json':

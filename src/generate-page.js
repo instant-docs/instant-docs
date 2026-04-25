@@ -1,6 +1,5 @@
-import { defaultMetaData } from '#helpers/index.js';
+import { defaultMetaData, minifyHtml } from '#helpers/index.js';
 import { readFileSync } from 'fs';
-import { minify } from 'htmlfy';
 import config from '../config.js';
 import applyBePlugins from './apply-be-plugins.js';
 import generateTableOfContents from './genereate-toc.js';
@@ -26,5 +25,5 @@ export default function generatePage({ dir = '', content = '', meta = defaultMet
   }
 
   html = applyBePlugins({ html, dir, lang, meta });
-  return minify(html, { ignore: ['pre'], checked_html: false });
+  return minifyHtml(html);
 }

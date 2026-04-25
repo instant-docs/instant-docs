@@ -1,6 +1,6 @@
 {
   "name": "instant-docs",
-  "version": "5.0.2",
+  "version": "6.0.0-rc.1",
   "description": "Create docs faster than light",
   "main": "index.js",
   "type": "module",
@@ -8,9 +8,9 @@
     "instant-docs": "./bin/index.js"
   },
   "scripts": {
-    "start": "npx instant-docs",
-    "dev": "node --watch index.js",
-    "build": "node ./bin/index.js --build",
+    "start": "bunx instant-docs",
+    "dev": "bun --watch index.js",
+    "build": "bun ./bin/index.js --build",
     "lint": "eslint .",
     "test": "vitest"
   },
@@ -41,15 +41,14 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@minify-html/node": "^0.18.1",
     "axios": "^1.7.7",
     "cheerio": "^1.0.0",
     "copy-folder-util": "^1.1.4",
     "csso": "^5.0.5",
-    "dotenv": "^16.4.5",
     "esbuild": "^0.24.0",
     "express": "^5.2.1",
     "highlight.js": "^11.11.1",
-    "htmlfy": "^0.8.0",
     "marked": "^18.0.0",
     "marked-highlight": "^2.2.4",
     "pkg-dir": "^8.0.0"
@@ -63,7 +62,6 @@
     "eslint-plugin-prettier": "^5.2.1",
     "globals": "^15.11.0",
     "prettier": "3.3.3",
-    "vite": "^8.0.10",
     "vitest": "^4.1.5"
   },
   "imports": {

@@ -38,8 +38,10 @@ emitter.on('create-search-index', async () => {
     emitter.emit('search-index-ready');
     return;
   }
-  const supportedLanguages = config.CONTENT_LANGUAGES.split(',');
-  const langVerCombination = supportedLanguages.map(lang => versions.map(v => [lang, v])).flat();
-  await Promise.all(langVerCombination.map(([lang, version]) => prepareSearchIndexes({ lang, version })));
-  emitter.emit('search-index-ready');
+  emitter.once('server-started', async () => {
+    const supportedLanguages = config.CONTENT_LANGUAGES.split(',');
+    const langVerCombination = supportedLanguages.map(lang => versions.map(v => [lang, v])).flat();
+    await Promise.all(langVerCombination.map(([lang, version]) => prepareSearchIndexes({ lang, version })));
+    emitter.emit('search-index-ready');
+  });
 });

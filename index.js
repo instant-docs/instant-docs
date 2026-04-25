@@ -60,7 +60,7 @@ async function readDirAndSetRoutes({ parent = '/', dir = './versions/latest/on-m
         if (element.startsWith('content') && !pages.some((page) => page.url === urlSegment)) {
           page.metas = await getMetadatas({ dir, version });
           pages.push(page);
-          addPageToCollection(version, page, /** @type {'on-menu' | 'off-menu'} */ (dirType));
+          addPageToCollection(version, page, /** @type {'on-menu' | 'off-menu'} */(dirType));
           app.get(url, (req, res) => {
             const lang = req.params.lang || DEFAULT_LANG || res.locals.preferredLanguage;
             const { content, dictionaryMap, dictionary } = getHtmlContent(dir, lang);
@@ -126,11 +126,18 @@ async function getMetadatas({ dir, version }) {
 
 buildFePlugins();
 
-export const server = app.listen(PORT, () => {
+export const server = app.listen(PORT, (err) => {
   const baseUrl = `${PROTOCOL}://localhost:${PORT}`;
-  console.log(`Running on ${baseUrl}`);
-  emitter.on('all-ready', () => {
-    const homeLink = getLinkFor({ page: { url: '/', metas: {} }, lang: config.DEFAULT_LANG, version: 'latest' });
-    console.log(`Home link: ${baseUrl}${homeLink}`);
-  });
+  if (!err) {
+    emitter.emit('server-started');
+    console.log(`Running on ${baseUrl}`);
+    emitter.on('all-ready', () => {
+      const homeLink = getLinkFor({ page: { url: '/', metas: {} }, lang: config.DEFAULT_LANG, version: 'latest' });
+      console.log(`Home link: ${baseUrl}${homeLink}`);
+    });
+  } else {
+    console.error('Error starting server:');
+    console.error(err);
+    process.exit(1);
+  }
 });

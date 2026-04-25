@@ -1,0 +1,13 @@
+{
+  "en": {
+    "title": "What is Node.js?",
+    "intro_paragraph": "Node.js is a runtime environment that allows you to run JavaScript on the server side. It's built on Chrome's V8 JavaScript engine and it uses an event-driven, non-blocking I/O model which makes it lightweight and efficient.",
+    "key_features_heading": "Key Features:",
+    "event_driven_model_bullet": "Event-Driven Model:",
+    "event_driven_model_content": "Node.js uses events to handle requests asynchronously, making it fast and scalable.",
+    "single_threaded_bullet": "Single Threaded but Highly Concurrent:",
+    "single_threaded_content": "It can handle multiple connections simultaneously with a single thread, thanks to its non-blocking I/O operations.",
+    "wide_range_packages_bullet": "Wide Range of Packages:",
+    "wide_range_packages_content": "With npm (Node Package Manager), you have access to millions of reusable packages to speed up development."
+  }
+}

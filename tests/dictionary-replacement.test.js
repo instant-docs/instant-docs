@@ -6,7 +6,7 @@ import { initializePageCollections } from '../src/get-pages.js';
 import { emitter } from '../src/events.js';
 
 initializePageCollections('latest');
-// await new Promise(resolve => emitter.once('be-plugins-ready', resolve));
+await new Promise(resolve => emitter.once('be-plugins-ready', resolve));
 
 test('dictionary placeholder replacement - BUG.md scenario', async () => {
     // Wait for backend plugins to be ready
@@ -60,7 +60,7 @@ test('dictionary placeholder replacement - BUG.md scenario', async () => {
         version: 'latest',
         dictionaryMap,
         dictionary
-    });
+    })
 
     // Verify the expected output matches BUG.md expected HTML
     expect(result).toContain('<h1>What is Node.js?</h1>');
