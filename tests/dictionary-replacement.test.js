@@ -1,12 +1,10 @@
-import { test, expect } from 'vitest';
-import { markdownToHtml, defaultMetaData } from '../helpers/index.js';
-import generatePage from '../src/generate-page.js';
+import { expect, test } from 'vitest';
 import config from '../config.js';
+import { defaultMetaData, markdownToHtml } from '../helpers/index.js';
+import generatePage from '../src/generate-page.js';
 import { initializePageCollections } from '../src/get-pages.js';
-import { emitter } from '../src/events.js';
 
 initializePageCollections('latest');
-await new Promise(resolve => emitter.once('be-plugins-ready', resolve));
 
 test('dictionary placeholder replacement - BUG.md scenario', async () => {
     // Wait for backend plugins to be ready

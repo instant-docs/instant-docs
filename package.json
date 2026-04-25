@@ -1,6 +1,6 @@
 {
   "name": "instant-docs",
-  "version": "6.0.0-rc.2",
+  "version": "6.0.0",
   "description": "Create docs faster than light",
   "main": "index.js",
   "type": "module",
@@ -10,6 +10,7 @@
   "scripts": {
     "start": "bunx instant-docs",
     "dev": "bun --watch index.js",
+    "prepublishOnly": "bun run test",
     "build": "bun ./bin/index.js --build",
     "lint": "eslint .",
     "test": "vitest"
