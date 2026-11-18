@@ -7,7 +7,15 @@ import getTemplate from './get-template.js';
 import getVarMap from './get-var-map.js';
 import putVariables from './put-variables-to-text.js';
 
-export default function generatePage({ dir = '', content = '', meta = defaultMetaData, lang = config.DEFAULT_LANG, version = 'latest', dictionaryMap = {}, dictionary = {} } = {}) {
+export default function generatePage({
+  dir = '',
+  content = '',
+  meta = defaultMetaData,
+  lang = config.DEFAULT_LANG,
+  version = 'latest',
+  dictionaryMap = {},
+  dictionary = {},
+} = {}) {
   let html = readFileSync(getTemplate(dir), config.ENCODING);
   if (meta.replacePlaceholders) {
     html = html.replaceAll('%content%', content);

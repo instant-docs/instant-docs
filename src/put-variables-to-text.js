@@ -13,10 +13,10 @@ import { toSnakeCase } from './to-snakecase.js';
  * @returns {T} The object/text with variables replaced.
  */
 export default function putVariables({ target = '', source = {}, prefix = '', suffix = '', placeholderAlreadyWrapped = false, convertToSnakeCase = true }) {
-  if (typeof target === "string") {
+  if (typeof target === 'string') {
     return Object.keys(source || {}).reduce((result, key) => {
       let value = source[key];
-      if(Array.isArray(value)){
+      if (Array.isArray(value)) {
         value = value.join(', ');
       }
       key = convertToSnakeCase ? toSnakeCase(key) : key;
@@ -25,14 +25,12 @@ export default function putVariables({ target = '', source = {}, prefix = '', su
       result = result.replace(placeholder, value);
       return result;
     }, target);
-  }
-  else if(Array.isArray(target)){
-    return target.map(item => putVariables({ target: item, source, prefix, suffix, placeholderAlreadyWrapped, convertToSnakeCase }));
-  }
-  else if (typeof target === "object") {
-    return Object.fromEntries(Object.keys(target).map(key =>
-      [key, putVariables({ target: target[key], source, prefix, suffix, placeholderAlreadyWrapped, convertToSnakeCase })]
-    ));
+  } else if (Array.isArray(target)) {
+    return target.map((item) => putVariables({ target: item, source, prefix, suffix, placeholderAlreadyWrapped, convertToSnakeCase }));
+  } else if (typeof target === 'object') {
+    return Object.fromEntries(
+      Object.keys(target).map((key) => [key, putVariables({ target: target[key], source, prefix, suffix, placeholderAlreadyWrapped, convertToSnakeCase })]),
+    );
   }
   return target;
 }

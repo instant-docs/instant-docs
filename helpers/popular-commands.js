@@ -408,5 +408,5 @@ export default [
   'cmd',
   'ps',
   'pwsh',
-  'iex',  
+  'iex',
 ];

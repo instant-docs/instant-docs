@@ -1,6 +1,6 @@
 {
   "name": "instant-docs",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "description": "Create docs faster than light",
   "main": "index.js",
   "type": "module",
@@ -50,7 +50,8 @@
     "esbuild": "^0.24.0",
     "express": "^5.2.1",
     "highlight.js": "^11.11.1",
-    "marked": "^18.0.0",
+    "marked": "^18.2.1",
+    "marked-gfm-heading-id": "^4.1.4",
     "marked-highlight": "^2.2.4",
     "pkg-dir": "^8.0.0"
   },

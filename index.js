@@ -22,7 +22,7 @@ import { versions } from './src/get-versions.js';
 import putVariables from './src/put-variables-to-text.js';
 import { toImportPath } from './src/to-import-path.js';
 
-const { PORT, PROTOCOL, DEFAULT_LANG, GLOBAL_STATIC_PATH } = config;
+const { HOST, PORT, PROTOCOL, DEFAULT_LANG, GLOBAL_STATIC_PATH } = config;
 
 export const app = express();
 
@@ -60,11 +60,11 @@ async function readDirAndSetRoutes({ parent = '/', dir = './versions/latest/on-m
         if (element.startsWith('content') && !pages.some((page) => page.url === urlSegment)) {
           page.metas = await getMetadatas({ dir, version });
           pages.push(page);
-          addPageToCollection(version, page, /** @type {'on-menu' | 'off-menu'} */(dirType));
+          addPageToCollection(version, page, /** @type {'on-menu' | 'off-menu'} */ (dirType));
           app.get(url, (req, res) => {
             const lang = req.params.lang || DEFAULT_LANG || res.locals.preferredLanguage;
-            const { content, dictionaryMap, dictionary } = getHtmlContent(dir, lang);
             const meta = page.metas[lang];
+            const { content, dictionaryMap, dictionary } = getHtmlContent(dir, lang, { replacePlaceholders: meta?.replacePlaceholders ?? true });
             const generatedPage = generatePage({ dir, content, meta, lang, version, dictionaryMap, dictionary });
             res.contentType('html').send(generatedPage);
           });
@@ -107,7 +107,7 @@ async function getMetadatas({ dir, version }) {
   /**@type {Record<string, object>} */
   const result = {};
   for (const lang of config.CONTENT_LANGUAGES.split(',')) {
-    const metaFile = metaFiles.find(file => file === `meta_${lang}.js`) || metaFiles.find(file => file === `meta.js`);
+    const metaFile = metaFiles.find((file) => file === `meta_${lang}.js`) || metaFiles.find((file) => file === `meta.js`);
     if (!metaFile) {
       result[lang] = metadata();
       continue;
@@ -117,7 +117,7 @@ async function getMetadatas({ dir, version }) {
     const metaModule = await import(toImportPath(relative(scriptDir, moduleDir)));
     const pureMeta = metaModule.default;
     const dictionary = getDictionary({ dir, lang });
-    const dictionaryMap = Object.fromEntries(Object.keys(dictionary).map(key => [`${config.DICTIONARY_VARIABLE}.${key}`, dictionary[key]]));
+    const dictionaryMap = Object.fromEntries(Object.keys(dictionary).map((key) => [`${config.DICTIONARY_VARIABLE}.${key}`, dictionary[key]]));
     const varMap = getVarMap({ dir, lang, version, dictionaryMap });
     result[lang] = putVariables({ target: pureMeta, source: varMap, placeholderAlreadyWrapped: true, convertToSnakeCase: false });
   }
@@ -126,8 +126,8 @@ async function getMetadatas({ dir, version }) {
 
 buildFePlugins();
 
-export const server = app.listen(PORT, (err) => {
-  const baseUrl = `${PROTOCOL}://localhost:${PORT}`;
+export const server = app.listen(PORT, HOST, (err) => {
+  const baseUrl = `${PROTOCOL}://${HOST}:${PORT}`;
   if (!err) {
     emitter.emit('server-started');
     console.log(`Running on ${baseUrl}`);
