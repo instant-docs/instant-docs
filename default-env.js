@@ -1,7 +1,8 @@
 export default {
+  HOST: 'localhost',
   PORT: 3000,
   PROTOCOL: 'http',
-  /** @type {BufferEncoding} */ ENCODING: "utf-8",
+  /** @type {BufferEncoding} */ ENCODING: 'utf-8',
   DEFAULT_LANG: 'en',
   DEFAULT_CONTENT_HEADING_LEVEL: 2,
   ALLOW_SEARCH_IN_OFF_MENU: 'true',
@@ -12,5 +13,5 @@ export default {
   LINK_FORMAT: '/%lang%/%version%/%slug%',
   DICTIONARY_VARIABLE: '%d%',
   GLOBAL_STATIC_PATH: '/static',
-  DISABLE_SEARCH: 'false'
+  DISABLE_SEARCH: 'false',
 };

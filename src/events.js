@@ -40,7 +40,7 @@ emitter.on('create-search-index', async () => {
   }
   emitter.once('server-started', async () => {
     const supportedLanguages = config.CONTENT_LANGUAGES.split(',');
-    const langVerCombination = supportedLanguages.map(lang => versions.map(v => [lang, v])).flat();
+    const langVerCombination = supportedLanguages.map((lang) => versions.map((v) => [lang, v])).flat();
     await Promise.all(langVerCombination.map(([lang, version]) => prepareSearchIndexes({ lang, version })));
     emitter.emit('search-index-ready');
   });

@@ -28,7 +28,7 @@ export default function getLinkFor({ page, lang, version }) {
       .replaceAll('%path%', page.url)
       .replaceAll('%slug%', slug)
       .replaceAll('%version%', version)
-      .replace(/\/$/,''),
+      .replace(/\/$/, ''),
     source: page.metas[lang] || page.metas[config.DEFAULT_LANG],
     prefix: 'meta_',
   });

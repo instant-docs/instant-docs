@@ -7,7 +7,7 @@ export const offMenuPagesByVersion = {};
 
 /**
  * Initialize page collections for a version if they don't exist
- * @param {string} version 
+ * @param {string} version
  */
 export function initializePageCollections(version) {
   if (!onMenuPagesByVersion[version]) {
@@ -20,9 +20,9 @@ export function initializePageCollections(version) {
 
 /**
  * Add a page to the appropriate collection
- * @param {string} version 
- * @param {{url: string, metas: Record<string, object>}} page 
- * @param {'on-menu' | 'off-menu'} dirType 
+ * @param {string} version
+ * @param {{url: string, metas: Record<string, object>}} page
+ * @param {'on-menu' | 'off-menu'} dirType
  */
 export function addPageToCollection(version, page, dirType) {
   if (dirType === 'on-menu') {

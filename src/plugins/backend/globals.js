@@ -8,18 +8,10 @@ export default function setGlobals({ html, meta, lang, dir }) {
   function getLink({ slug, lang, version } = {}) {
     lang = lang ?? window.lang;
     version = version ?? window.version ?? backend.version;
-    return config.LINK_FORMAT
-      .replaceAll('%lang%', lang)
-      .replaceAll('%version%', version)
-      .replaceAll('%slug%', slug)
-      .replaceAll('//', '/')
-      .replace(/\/$/, '');
+    return config.LINK_FORMAT.replaceAll('%lang%', lang).replaceAll('%version%', version).replaceAll('%slug%', slug).replaceAll('//', '/').replace(/\/$/, '');
   }
 
-  const hardCodedGetLink = getLink.toString()
-    .replaceAll('config.LINK_FORMAT', `'${config.LINK_FORMAT}'`)
-    .replaceAll('backend.version', `'${version}'`);
-
+  const hardCodedGetLink = getLink.toString().replaceAll('config.LINK_FORMAT', `'${config.LINK_FORMAT}'`).replaceAll('backend.version', `'${version}'`);
 
   $('head').append(
     `

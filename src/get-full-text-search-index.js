@@ -25,11 +25,8 @@ async function getFullTextSearchIndex(page, lang, version) {
   $('nav, header, footer, aside, script, style, #table-of-contents, form').remove();
   const title = $('title').text().trim();
   const textContent = title + ' ' + $('main').text();
-  const cleanText = textContent
-    .replace(/\s+/g, ' ')
-    .trim();
+  const cleanText = textContent.replace(/\s+/g, ' ').trim();
   return { title, cleanText, url: getLinkFor({ page, lang, version }) };
-
 }
 
 function isTrueStr(str) {

@@ -1,8 +1,10 @@
 import config from '../config.js';
 import { Marked } from 'marked';
+import { gfmHeadingId, resetHeadings } from 'marked-gfm-heading-id';
 import { markedHighlight } from 'marked-highlight';
 import hljs from 'highlight.js';
 import bash from 'highlight.js/lib/languages/bash';
+import scss from 'highlight.js/lib/languages/scss';
 import POPULAR_COMMANDS from './popular-commands.js';
 import nhm from '@minify-html/node';
 
@@ -12,14 +14,19 @@ if (Array.isArray(patchedBash.keywords.built_in)) {
 }
 
 hljs.registerLanguage('bash', () => patchedBash);
+hljs.registerLanguage('sass', () => scss(hljs));
 
-const marked = new Marked(markedHighlight({
-  langPrefix: 'hljs language-',
-  highlight(code, lang) {
-    const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-    return hljs.highlight(code, { language }).value;
-  }
-}));
+const marked = new Marked(
+  markedHighlight({
+    langPrefix: 'hljs language-',
+    highlight(code, lang) {
+      const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+      return hljs.highlight(code, { language }).value;
+    },
+  }),
+);
+
+marked.use(gfmHeadingId());
 
 export function metadata({
   title = '',
@@ -36,18 +43,24 @@ export function metadata({
 }
 
 export function markdownToHtml(text) {
-  return marked.parse(text);
+  resetHeadings();
+  return marked.parse(text, {
+    gfm: true,
+    breaks: true,
+  });
 }
 
 export function minifyHtml(html) {
-  return nhm.minify(Buffer.from(html), {
-    keep_closing_tags: true,
-    keep_html_and_head_opening_tags: true,
-    keep_spaces_between_attributes: true,
-    keep_comments: true,
-    minify_css: true,
-    minify_js: true,
-  }).toString();
+  return nhm
+    .minify(Buffer.from(html), {
+      keep_closing_tags: true,
+      keep_html_and_head_opening_tags: true,
+      keep_spaces_between_attributes: true,
+      keep_comments: true,
+      minify_css: true,
+      minify_js: true,
+    })
+    .toString();
 }
 
 export const defaultMetaData = metadata({});

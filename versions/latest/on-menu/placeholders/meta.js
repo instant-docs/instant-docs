@@ -1,5 +1,5 @@
-import { metadata } from "#helpers/index.js";
+import { metadata } from '#helpers/index.js';
 
 export default metadata({
-    title: '%d%.placeholders'
-})
+  title: '%d%.placeholders',
+});

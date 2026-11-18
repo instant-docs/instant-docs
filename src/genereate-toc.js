@@ -15,7 +15,7 @@ export default function generateTableOfContents(html, lang, level = config.DEFAU
     toc += '</li>';
   });
   if (toc.length > 0) {
-    toc = `<section id="table-of-contents"><h2>${config.DICTIONARY_VARIABLE}.table_of_contents</h2><ol>${toc}</ol></section>`;
+    toc = `<h2>${config.DICTIONARY_VARIABLE}.table_of_contents</h2><ol>${toc}</ol>`;
   }
   return toc;
 }
@@ -30,7 +30,7 @@ export default function generateTableOfContents(html, lang, level = config.DEFAU
  */
 function generateSubTableOfContents($, lang, level, parent, parentLevel) {
   let nextElement = parent.next();
-  let toc = '<ol>';
+  let toc = '';
   while (nextElement.length) {
     if (nextElement.is(`h${parentLevel}`)) {
       break;
@@ -44,5 +44,5 @@ function generateSubTableOfContents($, lang, level, parent, parentLevel) {
     }
     nextElement = nextElement.next();
   }
-  return toc + '</ol>';
+  return toc.length > 0 ? `<ol>${toc}</ol>` : '';
 }
